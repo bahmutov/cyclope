@@ -11,6 +11,9 @@ jobs:
       # and run all Cypress tests
       - name: Cypress tests 🧪
         uses: cypress-io/github-action@v2
+        with:
+          start: npm start
+          wait-on: 'http://localhost:3777'
 
       - name: Semantic Release 🚀
         uses: cycjimmy/semantic-release-action@v2
