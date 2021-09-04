@@ -56,12 +56,20 @@ const isRelative = (src) => src.startsWith('/') || src.startsWith('./')
 function saveRelativeResources(outputFolder) {
   return function saveResources(html) {
     return cy.task('makeFolder', outputFolder).then(() => {
+      // sometimes the same resource is referenced multiple times
+      const alreadySaved = {}
+
       $(html)
         .find('img')
         .each(function (k, img) {
           const imageSource = img.getAttribute('src')
           if (isRelative(imageSource)) {
             console.log('relative image', imageSource)
+            if (alreadySaved[imageSource]) {
+              return
+            }
+
+            alreadySaved[imageSource] = true
             cy.task('saveResource', {
               outputFolder,
               fullUrl: img.currentSrc,

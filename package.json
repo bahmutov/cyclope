@@ -39,6 +39,7 @@
     "semantic-release": "^17.4.7"
   },
   "dependencies": {
+    "got": "^11.8.2",
     "mkdirp": "^1.0.4"
   }
 }
