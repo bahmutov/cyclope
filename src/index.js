@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+const { $ } = Cypress
+
 function _styleTag(style) {
   return `<style>${style}</style>`
 }
@@ -49,4 +51,27 @@ function getDOMasHTML() {
   return html
 }
 
-module.exports = { getDOMasHTML }
+const isRelative = (src) => src.startsWith('/') || src.startsWith('./')
+
+function saveRelativeResources(outputFolder) {
+  return function saveResources(html) {
+    return cy.task('makeFolder', outputFolder).then(() => {
+      $(html)
+        .find('img')
+        .each(function (k, img) {
+          const imageSource = img.getAttribute('src')
+          if (isRelative(imageSource)) {
+            console.log('relative image', imageSource)
+            cy.task('saveResource', {
+              outputFolder,
+              fullUrl: img.currentSrc,
+              srcAttribute: imageSource,
+            })
+          }
+        })
+      return cy.wrap(html)
+    })
+  }
+}
+
+module.exports = { getDOMasHTML, saveRelativeResources }

@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { getDOMasHTML } from '../..'
+import { getDOMasHTML, saveRelativeResources } from '../..'
 
 it('creates accurate DOM snapshots', () => {
   cy.visit('/')
@@ -10,6 +10,7 @@ it('creates accurate DOM snapshots', () => {
   cy.get('[data-cy=todo]')
     .should('have.length', 2)
     .then(getDOMasHTML)
+    .then(saveRelativeResources('output'))
     .then((html) => {
       cy.writeFile('output/two-items-light.html', html)
     })
