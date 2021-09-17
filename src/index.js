@@ -82,4 +82,18 @@ function saveRelativeResources(outputFolder) {
   }
 }
 
-module.exports = { getDOMasHTML, saveRelativeResources }
+/**
+ * Use this function as an "afterEach" hook to automatically save the
+ * current page as an HTML file if the test has failed.
+ * @example
+ *  afterEach(savePageIfTestFailed)
+ */
+function savePageIfTestFailed() {
+  if (cy.state('test').isFailed()) {
+    const outputFolder = 'failed'
+    saveRelativeResources(outputFolder)(getDOMasHTML()).then((html) => {
+      cy.writeFile(`${outputFolder}/index.html`, html)
+    })
+  }
+}
+module.exports = { getDOMasHTML, saveRelativeResources, savePageIfTestFailed }

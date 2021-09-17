@@ -17,6 +17,9 @@ function initCyclope(on, config) {
 
     async saveResource({ outputFolder, fullUrl, srcAttribute }) {
       console.log('saving %s -> %s', fullUrl, srcAttribute)
+      if (!fullUrl) {
+        throw new Error('Missing fullUrl')
+      }
 
       const savePath = path.join(outputFolder, srcAttribute)
       const folder = path.dirname(savePath)
