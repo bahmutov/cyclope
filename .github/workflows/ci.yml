@@ -14,6 +14,7 @@ jobs:
         with:
           start: npm start
           wait-on: 'http://localhost:3777'
+          config: ignoreTestFiles=on-failure.js
 
       - name: Semantic Release 🚀
         uses: cycjimmy/semantic-release-action@v2
