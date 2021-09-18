@@ -59,6 +59,15 @@ function saveRelativeResources(outputFolder) {
       // sometimes the same resource is referenced multiple times
       const alreadySaved = {}
 
+      // find all the resources that are relative from the style elements
+      debugger
+      $(html)
+        .find('style')
+        .each(function (k, style) {
+          console.log('style', style)
+          debugger
+        })
+
       $(html)
         .find('img')
         .each(function (k, img) {
@@ -70,9 +79,10 @@ function saveRelativeResources(outputFolder) {
             }
 
             alreadySaved[imageSource] = true
+            const fullUrl = img.currentSrc || img.src
             cy.task('saveResource', {
               outputFolder,
-              fullUrl: img.currentSrc,
+              fullUrl,
               srcAttribute: imageSource,
             })
           }
