@@ -81,52 +81,52 @@ function getDOMasHTML() {
 
 const isRelative = (src) => src.startsWith('/') || src.startsWith('./')
 
-function saveRelativeResources(outputFolder) {
-  return function saveResources(html) {
-    return cy.task('makeFolder', outputFolder).then(() => {
-      // sometimes the same resource is referenced multiple times
-      const alreadySaved = {}
+function saveRelativeResources(outputFolder, html) {
+  return cy.task('makeFolder', outputFolder).then(() => {
+    // sometimes the same resource is referenced multiple times
+    const alreadySaved = {}
 
-      // find all the resources that are relative from the style elements
-      // using regex url('...')
-      // TODO: probably need to ask the document
-      const baseUrl = Cypress.config('baseUrl')
-      const { urls, replaced } = replaceUrls(baseUrl, html)
-      cy.wrap(urls)
+    // find all the resources that are relative from the style elements
+    // using regex url('...')
+    // TODO: probably need to ask the document
+    const baseUrl = Cypress.config('baseUrl')
+    cy.log(`base url ${baseUrl}`)
 
-      urls.forEach((fullUrl) => {
-        const relativeUrl = fullUrl.replace(baseUrl, '.')
-        cy.task('saveResource', {
-          outputFolder,
-          fullUrl,
-          srcAttribute: relativeUrl,
-        })
+    const { urls, replaced } = replaceUrls(baseUrl, html)
+    cy.wrap(urls)
+
+    urls.forEach((fullUrl) => {
+      const relativeUrl = fullUrl.replace(baseUrl, '.')
+      cy.task('saveResource', {
+        outputFolder,
+        fullUrl,
+        srcAttribute: relativeUrl,
       })
-
-      html = replaced
-
-      $(html)
-        .find('img')
-        .each(function (k, img) {
-          const imageSource = img.getAttribute('src')
-          if (isRelative(imageSource)) {
-            console.log('relative image', imageSource)
-            if (alreadySaved[imageSource]) {
-              return
-            }
-
-            alreadySaved[imageSource] = true
-            const fullUrl = img.currentSrc || img.src
-            cy.task('saveResource', {
-              outputFolder,
-              fullUrl,
-              srcAttribute: imageSource,
-            })
-          }
-        })
-      return cy.wrap(html)
     })
-  }
+
+    html = replaced
+
+    $(html)
+      .find('img')
+      .each(function (k, img) {
+        const imageSource = img.getAttribute('src')
+        if (isRelative(imageSource)) {
+          console.log('relative image', imageSource)
+          if (alreadySaved[imageSource]) {
+            return
+          }
+
+          alreadySaved[imageSource] = true
+          const fullUrl = img.currentSrc || img.src
+          cy.task('saveResource', {
+            outputFolder,
+            fullUrl,
+            srcAttribute: imageSource,
+          })
+        }
+      })
+    return cy.wrap(html)
+  })
 }
 
 /**
@@ -137,15 +137,24 @@ function saveRelativeResources(outputFolder) {
  */
 function savePageIfTestFailed() {
   if (cy.state('test').isFailed()) {
+    // TODO: use the name of the test as the folder name
     const outputFolder = 'failed'
-    saveRelativeResources(outputFolder)(getDOMasHTML()).then((html) => {
-      cy.writeFile(`${outputFolder}/index.html`, html)
+    return savePage(outputFolder)()
+  }
+}
+
+function savePage(outputFolder) {
+  return function savePageNow() {
+    const html = getDOMasHTML()
+    return saveRelativeResources(outputFolder, html).then((html) => {
+      const filename = `${outputFolder}/index.html`
+      return cy.writeFile(filename, html)
     })
   }
 }
+
 module.exports = {
-  getDOMasHTML,
-  saveRelativeResources,
+  savePage,
   savePageIfTestFailed,
-  utils: { replaceUrls },
+  utils: { replaceUrls, getDOMasHTML, saveRelativeResources },
 }
