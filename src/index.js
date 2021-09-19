@@ -18,6 +18,34 @@ function _replaceStyle($head, existingStyle, style) {
   }
 }
 
+/**
+ * Takes a CSS string with absolute URLs served by the running web application
+ * and replaced matched URLs with relative URLs.
+ * @param {String} baseUrl Base URL of the application, will be replaced with "."
+ * @param {String} style CSS with potential url('...') to be replaced with relative paths
+ */
+function replaceUrls(baseUrl, style) {
+  // all found matched urls
+  const urls = []
+  const replaced = style.replace(
+    /url\('(?:ftp|http|https):\/\/[^ "]+'\)/g,
+    (...match) => {
+      if (match[0]) {
+        if (match[0].includes(baseUrl)) {
+          // remove the "url('" prefix and "')" suffix
+          const url = match[0].substr(5, match[0].length - 7)
+          urls.push(url)
+          return match[0].replace(baseUrl, '.')
+        }
+      }
+    },
+  )
+  return {
+    urls,
+    replaced,
+  }
+}
+
 function getDOMasHTML() {
   const snap = cy.createSnapshot('snap')
 
@@ -60,13 +88,22 @@ function saveRelativeResources(outputFolder) {
       const alreadySaved = {}
 
       // find all the resources that are relative from the style elements
-      debugger
-      $(html)
-        .find('style')
-        .each(function (k, style) {
-          console.log('style', style)
-          debugger
+      // using regex url('...')
+      // TODO: probably need to ask the document
+      const baseUrl = Cypress.config('baseUrl')
+      const { urls, replaced } = replaceUrls(baseUrl, html)
+      cy.wrap(urls)
+
+      urls.forEach((fullUrl) => {
+        const relativeUrl = fullUrl.replace(baseUrl, '.')
+        cy.task('saveResource', {
+          outputFolder,
+          fullUrl,
+          srcAttribute: relativeUrl,
         })
+      })
+
+      html = replaced
 
       $(html)
         .find('img')
@@ -106,4 +143,9 @@ function savePageIfTestFailed() {
     })
   }
 }
-module.exports = { getDOMasHTML, saveRelativeResources, savePageIfTestFailed }
+module.exports = {
+  getDOMasHTML,
+  saveRelativeResources,
+  savePageIfTestFailed,
+  utils: { replaceUrls },
+}
