@@ -13,7 +13,8 @@
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "dev": "start-test 3777 cy:open",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "fail:example": "cypress-expect --failing 1 --spec cypress/integration/example/on-failure.js"
   },
   "repository": {
     "type": "git",
@@ -33,10 +34,11 @@
   "homepage": "https://github.com/bahmutov/cyclope#readme",
   "devDependencies": {
     "cypress": "^8.4.0",
+    "cypress-expect": "^2.4.3",
     "prettier": "^2.3.2",
+    "semantic-release": "^17.4.7",
     "serve": "^12.0.0",
-    "start-server-and-test": "^1.14.0",
-    "semantic-release": "^17.4.7"
+    "start-server-and-test": "^1.14.0"
   },
   "dependencies": {
     "got": "^11.8.2",

@@ -10,6 +10,7 @@ workflows:
           start: npm start
           wait-on: 'http://localhost:3777'
           spec: 'cypress/integration/example/on-failure.js'
+          command: 'npm run fail:example'
           no-workspace: true
           # save the standard Cypress screenshots saved on failure
           store_artifacts: true
