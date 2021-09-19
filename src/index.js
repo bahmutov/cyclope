@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
 const { $ } = Cypress
+const path = require('path')
 
 function _styleTag(style) {
   return `<style>${style}</style>`
@@ -137,8 +138,13 @@ function saveRelativeResources(outputFolder, html) {
  */
 function savePageIfTestFailed() {
   if (cy.state('test').isFailed()) {
-    // TODO: use the name of the test as the folder name
-    const outputFolder = 'failed'
+    const outputFolder = path.join(
+      'cypress',
+      'failed',
+      Cypress.spec.name,
+      Cypress.currentTest.title,
+    )
+    cy.log(outputFolder)
     return savePage(outputFolder)()
   }
 }

@@ -9,7 +9,7 @@ workflows:
           name: Saves page on test failure
           start: npm start
           wait-on: 'http://localhost:3777'
-          spec: 'cypress/integration/on-failure.js'
+          spec: 'cypress/integration/example/on-failure.js'
           no-workspace: true
           # save the standard Cypress screenshots saved on failure
           store_artifacts: true
