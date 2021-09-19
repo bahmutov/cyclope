@@ -7,7 +7,7 @@ it('can save the page after test failed', () => {
   cy.get('[data-cy=add-todo]')
     .type('Learn Cypress{enter}')
     .type('Write tests{enter}')
-  cy.get('[data-cy=todo]').should('have.length', 3)
+  cy.get('[data-cy=todos]').should('have.length', 2)
 })
 
 afterEach(savePageIfTestFailed)
