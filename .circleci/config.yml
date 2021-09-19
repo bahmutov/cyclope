@@ -11,6 +11,8 @@ workflows:
           wait-on: 'http://localhost:3777'
           spec: 'cypress/integration/on-failure.js'
           no-workspace: true
+          # save the standard Cypress screenshots saved on failure
+          store_artifacts: true
           post-steps:
             # the "on-failure.js" spec should have failed
             # but it should store the full page with resources
