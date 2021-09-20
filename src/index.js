@@ -68,6 +68,12 @@ function getDOMasHTML() {
     }
   })
 
+  // remove all <link rel="preload"> attributes
+  // since they won't work in a static file
+  $head.find('link[rel=preload]').each((i, link) => {
+    link.removeAttribute('rel')
+  })
+
   // replace head styles links
   const existingStyles = $head.find('link[rel="stylesheet"],style')
   console.log(existingStyles)
@@ -84,7 +90,19 @@ function getDOMasHTML() {
   const headHTML = XMLS.serializeToString(
     Cypress.$autIframe.contents().find('head')[0],
   )
-  const bodyHTML = XMLS.serializeToString(snap.body.get()[0])
+
+  const body = snap.body.get()[0]
+  // to correctly serialize checked state of checkboxes
+  // we need to take the current state and set it as an attribute
+  const checkboxes = body.querySelectorAll('input[type=checkbox]')
+  checkboxes.forEach((checkbox) => {
+    if (checkbox.checked) {
+      checkbox.setAttribute('checked', 'checked')
+    } else {
+      checkbox.removeAttribute('checked')
+    }
+  })
+  const bodyHTML = XMLS.serializeToString(body)
 
   const html = ['<html>', headHTML, bodyHTML, '</html>'].join('\n')
 

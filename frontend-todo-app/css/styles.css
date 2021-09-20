@@ -1,9 +1,9 @@
 :root {
-  --ff-sans: "Josefin Sans", sans-serif;
+  --ff-sans: 'Josefin Sans', sans-serif;
   --base-font: 1.6rem;
   --fw-normal: 400;
   --fw-bold: 700;
-  --img-bg: url("../assets/images/bg-desktop-dark.jpg");
+  --img-bg: url('../assets/images/bg-desktop-dark.jpg');
   --clr-primary: hsl(0, 0%, 98%);
   --clr-white: hsl(0, 0%, 100%);
   --clr-page-bg: hsl(235, 21%, 11%);
@@ -23,7 +23,7 @@
 /* CHANGE CUSTOM PROPERTIES WHEN LIGHT THEME */
 
 body.light {
-  --img-bg: url("../assets/images/bg-desktop-light.jpg");
+  --img-bg: url('../assets/images/bg-desktop-light.jpg');
   --clr-primary: hsl(243, 12%, 30%);
   --clr-page-bg: hsl(0, 0%, 98%);
   --clr-card-bg: hsl(0, 0%, 100%);
@@ -151,8 +151,10 @@ header.card h1 {
 /* CHECKED CARD */
 
 .card .cb-container .cb-input:checked + .check {
-  background: url("../assets/images/icon-check.svg"),
-    linear-gradient(45deg, var(--clr-green), var(--clr-pink));
+  /* background: url("../assets/images/icon-check.svg"),
+    linear-gradient(45deg, var(--clr-green), var(--clr-pink)); */
+  background: url('../assets/images/icon-check.svg');
+  background-color: var(--clr-green);
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -380,7 +382,7 @@ footer {
     position: relative;
   }
   .stat .filter::before {
-    content: "";
+    content: '';
     position: absolute;
     width: calc(100% + 4rem);
     height: 1rem;
