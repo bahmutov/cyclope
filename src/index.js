@@ -55,7 +55,18 @@ function getDOMasHTML() {
   const { headStyles } = Cypress.cy.getStyles(snap)
   console.log(headStyles)
   const $head = Cypress.$autIframe.contents().find('head')
+  // remove all inline JavaScript code
   $head.find('script').empty()
+  // replace all external JavaScript "src" attributes
+  // and put the value into the "data-src" attribute
+  // so we can see it, but the scripts are not loaded
+  $head.find('script').each((i, script) => {
+    const src = script.getAttribute('src')
+    if (src) {
+      script.setAttribute('data-src', src)
+      script.removeAttribute('src')
+    }
+  })
 
   // replace head styles links
   const existingStyles = $head.find('link[rel="stylesheet"],style')
