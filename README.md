@@ -4,6 +4,10 @@
 
 <h1>DO NOT USE. TOO EARLY ☠️</h1>
 
+## Videos
+
+- [Cyclope: Save A Full Page With Styles If A Cypress Test Fails](https://youtu.be/yt5eVUOxf_0)
+
 ## Install
 
 Add this plugin to your project. Assuming Cypress is a dev dependency
