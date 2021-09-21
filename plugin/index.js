@@ -4,6 +4,8 @@ const { promisify } = require('util')
 const stream = require('stream')
 const fs = require('fs')
 const got = require('got')
+const del = require('del')
+const { zipFolder } = require('./zip')
 
 const pipeline = promisify(stream.pipeline)
 
@@ -28,6 +30,18 @@ function initCyclope(on, config) {
       await pipeline(got.stream(fullUrl), fs.createWriteStream(savePath))
 
       return null
+    },
+
+    async zipFolder({ folder, zipFile }) {
+      console.log('zipping %s to %s', folder, zipFile)
+
+      await del(zipFile)
+
+      await zipFolder(folder, zipFile)
+
+      await del(folder)
+
+      return zipFile
     },
   })
 }

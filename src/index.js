@@ -178,13 +178,29 @@ function savePageIfTestFailed() {
   }
 }
 
-function savePage(outputFolder) {
+function savePage(outputFolderOrZipFile) {
   return function savePageNow() {
     const html = getDOMasHTML()
-    return saveRelativeResources(outputFolder, html).then((html) => {
-      const filename = `${outputFolder}/index.html`
-      return cy.writeFile(filename, html)
-    })
+    if (outputFolderOrZipFile.endsWith('.zip')) {
+      cy.log(`Saving ${outputFolderOrZipFile}`)
+      const tempFolder = outputFolderOrZipFile.replace(/\.zip$/, '')
+      return saveRelativeResources(tempFolder, html)
+        .then((html) => {
+          const filename = `${tempFolder}/index.html`
+          return cy.writeFile(filename, html)
+        })
+        .then(() => {
+          return cy.task('zipFolder', {
+            folder: tempFolder,
+            zipFile: outputFolderOrZipFile,
+          })
+        })
+    } else {
+      return saveRelativeResources(outputFolderOrZipFile, html).then((html) => {
+        const filename = `${outputFolderOrZipFile}/index.html`
+        return cy.writeFile(filename, html)
+      })
+    }
   }
 }
 
