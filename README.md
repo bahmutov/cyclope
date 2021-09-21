@@ -49,7 +49,12 @@ it('saves the page', () => {
 })
 ```
 
-All local resources like images and CSS should be saved as local files.
+All local resources like images and CSS should be saved as local files. You can create a zip archive
+
+```js
+// use .zip extension to zip the folder into a file
+ .then(savePage('page.zip'))
+```
 
 ## Save the failed page
 

@@ -4,3 +4,5 @@ failed/
 cypress/screenshots/
 cypress/videos/
 checkbox/
+dark-checkbox/
+*.zip
