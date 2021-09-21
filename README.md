@@ -9,6 +9,7 @@
 - [Cyclope: Save A Full Page With Styles If A Cypress Test Fails](https://youtu.be/yt5eVUOxf_0)
 - [Use LocalStorage From Cypress Test To Set Initial Data](https://youtu.be/KZqYqsjgKco)
 - [Test Dragging Items](https://youtu.be/mmKOSQxQwEU)
+- [Introduction to cy.session command](https://youtu.be/DlGQEQ2q35w)
 
 ## Install
 
