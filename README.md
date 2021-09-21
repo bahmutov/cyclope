@@ -53,7 +53,7 @@ All local resources like images and CSS should be saved as local files. You can 
 
 ```js
 // use .zip extension to zip the folder into a file
- .then(savePage('page.zip'))
+.then(savePage('page.zip'))
 ```
 
 ## Save the failed page
