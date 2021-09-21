@@ -25,4 +25,5 @@ it('completes the last todo', () => {
     .find('.cb-input')
     .check()
   cy.get('[data-cy=todo] .cb-input').last().should('be.checked')
+  cy.contains('#items-left', 2)
 })
