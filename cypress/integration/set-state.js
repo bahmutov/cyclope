@@ -33,6 +33,7 @@ it('starts with items', () => {
 
   // add another item
   cy.get('[data-cy=add-todo]').type('write tests{enter}')
+  cy.get('[data-cy=todo]').should('have.length', 3)
   cy.window()
     .its('localStorage')
     .invoke('getItem', 'todos')
@@ -41,4 +42,8 @@ it('starts with items', () => {
       ...todos,
       { item: 'write tests', isCompleted: false },
     ])
+
+  // when you reload, the todos stay
+  cy.reload()
+  cy.get('[data-cy=todo]').should('have.length', 3)
 })
