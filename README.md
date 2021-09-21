@@ -7,6 +7,7 @@
 ## Videos
 
 - [Cyclope: Save A Full Page With Styles If A Cypress Test Fails](https://youtu.be/yt5eVUOxf_0)
+- [Use LocalStorage From Cypress Test To Set Initial Data](https://youtu.be/KZqYqsjgKco)
 
 ## Install
 
