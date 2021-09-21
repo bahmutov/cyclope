@@ -30,7 +30,6 @@ function main() {
       const cards = [...this.querySelectorAll('.card')]
       const currPos = cards.indexOf(draggingCard)
       const newPos = cards.indexOf(e.target)
-      console.log(currPos, newPos)
       if (currPos > newPos) {
         this.insertBefore(draggingCard, e.target)
       } else {
