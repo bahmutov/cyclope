@@ -16,6 +16,13 @@ jobs:
           wait-on: 'http://localhost:3777'
           config: ignoreTestFiles=on-failure.js
 
+      # https://github.com/actions/upload-artifact
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: page
+          path: page/
+
       - name: Semantic Release 🚀
         uses: cycjimmy/semantic-release-action@v2
         with:
