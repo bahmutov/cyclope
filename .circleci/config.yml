@@ -19,3 +19,6 @@ workflows:
             # but it should store the full page with resources
             - store_artifacts:
                 path: cypress/failed
+            # same with other "savePage" calls
+            - store_artifacts:
+                path: page
