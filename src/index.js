@@ -53,7 +53,8 @@ function getDOMasHTML() {
   // replace external styles with <style> tags
   // like packages/runner-shared/src/iframe/aut-iframe.js
   const { headStyles } = Cypress.cy.getStyles(snap)
-  console.log(headStyles)
+  // console.log(headStyles)
+
   const $head = Cypress.$autIframe.contents().find('head')
   // remove all inline JavaScript code
   $head.find('script').empty()
@@ -76,7 +77,6 @@ function getDOMasHTML() {
 
   // replace head styles links
   const existingStyles = $head.find('link[rel="stylesheet"],style')
-  console.log(existingStyles)
 
   headStyles.forEach(function (style, index) {
     if (style.href) {
@@ -102,6 +102,21 @@ function getDOMasHTML() {
       checkbox.removeAttribute('checked')
     }
   })
+
+  // if an input element has focus, then the output HTML
+  // should set "autofocus" attribute on that input element
+  const doc = cy.state('document')
+  if (doc.activeElement) {
+    // cannot check the reference directly, because
+    // we are already dealing with a copy of the document
+    const activeElementHTML = doc.activeElement.outerHTML
+    body.querySelectorAll('input').forEach((input) => {
+      if (input.outerHTML === activeElementHTML) {
+        input.setAttribute('autofocus', 'autofocus')
+      }
+    })
+  }
+
   const bodyHTML = XMLS.serializeToString(body)
 
   const html = ['<html>', headHTML, bodyHTML, '</html>'].join('\n')
