@@ -159,7 +159,7 @@ function getDOMasHTML() {
 const isRelative = (src) => src.startsWith('/') || src.startsWith('./')
 
 function saveRelativeResources(outputFolder, html) {
-  return cy.task('makeFolder', outputFolder).then(() => {
+  return cy.task('makeFolder', outputFolder, { log: false }).then(() => {
     // sometimes the same resource is referenced multiple times
     const alreadySaved = {}
 
@@ -167,18 +167,22 @@ function saveRelativeResources(outputFolder, html) {
     // using regex url('...')
     // TODO: probably need to ask the document
     const baseUrl = Cypress.config('baseUrl')
-    cy.log(`base url ${baseUrl}`)
+    // cy.log(`base url ${baseUrl}`)
 
     const { urls, replaced } = replaceUrls(baseUrl, html)
-    cy.wrap(urls)
+    cy.wrap(urls, { log: false })
 
     urls.forEach((fullUrl) => {
       const relativeUrl = fullUrl.replace(baseUrl, '.')
-      cy.task('saveResource', {
-        outputFolder,
-        fullUrl,
-        srcAttribute: relativeUrl,
-      })
+      cy.task(
+        'saveResource',
+        {
+          outputFolder,
+          fullUrl,
+          srcAttribute: relativeUrl,
+        },
+        { log: false },
+      )
     })
 
     html = replaced
@@ -195,14 +199,18 @@ function saveRelativeResources(outputFolder, html) {
 
           alreadySaved[imageSource] = true
           const fullUrl = img.currentSrc || img.src
-          cy.task('saveResource', {
-            outputFolder,
-            fullUrl,
-            srcAttribute: imageSource,
-          })
+          cy.task(
+            'saveResource',
+            {
+              outputFolder,
+              fullUrl,
+              srcAttribute: imageSource,
+            },
+            { log: false },
+          )
         }
       })
-    return cy.wrap(html)
+    return cy.wrap(html, { log: false })
   })
 }
 
@@ -228,6 +236,7 @@ function savePageIfTestFailed() {
 function savePage(outputFolderOrZipFile) {
   return function savePageNow() {
     const started = +new Date()
+    cy.log(`cyclope: **${outputFolderOrZipFile}**`)
 
     function logTiming() {
       const finished = +new Date()
@@ -237,25 +246,29 @@ function savePage(outputFolderOrZipFile) {
 
     const html = getDOMasHTML()
     if (outputFolderOrZipFile.endsWith('.zip')) {
-      cy.log(`Saving ${outputFolderOrZipFile}`)
+      // cy.log(`Saving ${outputFolderOrZipFile}`)
       const tempFolder = outputFolderOrZipFile.replace(/\.zip$/, '')
       return saveRelativeResources(tempFolder, html)
         .then((html) => {
           const filename = `${tempFolder}/index.html`
-          return cy.writeFile(filename, html)
+          return cy.writeFile(filename, html, { log: false })
         })
         .then(() => {
-          return cy.task('zipFolder', {
-            folder: tempFolder,
-            zipFile: outputFolderOrZipFile,
-          })
+          return cy.task(
+            'zipFolder',
+            {
+              folder: tempFolder,
+              zipFile: outputFolderOrZipFile,
+            },
+            { log: false },
+          )
         })
         .then(logTiming)
     } else {
       return saveRelativeResources(outputFolderOrZipFile, html)
         .then((html) => {
           const filename = `${outputFolderOrZipFile}/index.html`
-          return cy.writeFile(filename, html)
+          return cy.writeFile(filename, html, { log: false })
         })
         .then(logTiming)
     }
