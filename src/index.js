@@ -3,6 +3,11 @@
 const { $ } = Cypress
 const path = require('path')
 
+Cypress.on('test:before:run', () => {
+  // before each test clear the hover element
+  cy.state('hovered', null)
+})
+
 function _styleTag(style) {
   return `<style>${style}</style>`
 }
@@ -48,6 +53,18 @@ function replaceUrls(baseUrl, style) {
 }
 
 function getDOMasHTML() {
+  const doc = cy.state('document')
+  // ughh, want to iterate over all CSS rules and see which ones
+  // are hover and apply to the hovered element (if any)
+  // to change these CSS rules into a CSS class
+  // but getting a weird DOM error trying to get the stylesheet's rules
+  // Cypress._.forEach(doc.styleSheets, function (styleSheet) {
+  // Cannot set property name of [object DOMException] which has only a getter
+  // console.log(styleSheet.rules)
+  // Cypress._.forEach(styleSheet.rules, (rule) => {
+  // console.log('rule', rule.selectorText)
+  // })
+  // })
   const snap = cy.createSnapshot('snap')
 
   // replace external styles with <style> tags
@@ -87,11 +104,26 @@ function getDOMasHTML() {
   })
 
   const XMLS = new XMLSerializer()
-  const headHTML = XMLS.serializeToString(
+  let headHTML = XMLS.serializeToString(
     Cypress.$autIframe.contents().find('head')[0],
   )
 
   const body = snap.body.get()[0]
+  const hoverElementSelector = cy.state('hovered')
+  if (hoverElementSelector) {
+    const hoverElement = body.querySelector(hoverElementSelector)
+    console.log('hovering over', hoverElement)
+    console.log(Cypress.$autIframe.contents().find('head')[0])
+    if (hoverElement) {
+      hoverElement.classList.add('hovered')
+      // replace the CSS style <selector>:hover with a class name
+      headHTML = headHTML.replaceAll(
+        hoverElementSelector + ':hover',
+        hoverElementSelector + '.hovered',
+      )
+    }
+  }
+
   // to correctly serialize checked state of checkboxes
   // we need to take the current state and set it as an attribute
   const checkboxes = body.querySelectorAll('input[type=checkbox]')
@@ -105,8 +137,8 @@ function getDOMasHTML() {
 
   // if an input element has focus, then the output HTML
   // should set "autofocus" attribute on that input element
-  const doc = cy.state('document')
   if (doc.activeElement) {
+    console.log('active element', doc.activeElement)
     // cannot check the reference directly, because
     // we are already dealing with a copy of the document
     const activeElementHTML = doc.activeElement.outerHTML
@@ -156,7 +188,7 @@ function saveRelativeResources(outputFolder, html) {
       .each(function (k, img) {
         const imageSource = img.getAttribute('src')
         if (isRelative(imageSource)) {
-          console.log('relative image', imageSource)
+          // console.log('relative image', imageSource)
           if (alreadySaved[imageSource]) {
             return
           }
