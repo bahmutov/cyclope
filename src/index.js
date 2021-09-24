@@ -180,6 +180,14 @@ function savePageIfTestFailed() {
 
 function savePage(outputFolderOrZipFile) {
   return function savePageNow() {
+    const started = +new Date()
+
+    function logTiming() {
+      const finished = +new Date()
+      const duration = finished - started
+      cy.log(`savePage took **${duration}** ms`)
+    }
+
     const html = getDOMasHTML()
     if (outputFolderOrZipFile.endsWith('.zip')) {
       cy.log(`Saving ${outputFolderOrZipFile}`)
@@ -195,11 +203,14 @@ function savePage(outputFolderOrZipFile) {
             zipFile: outputFolderOrZipFile,
           })
         })
+        .then(logTiming)
     } else {
-      return saveRelativeResources(outputFolderOrZipFile, html).then((html) => {
-        const filename = `${outputFolderOrZipFile}/index.html`
-        return cy.writeFile(filename, html)
-      })
+      return saveRelativeResources(outputFolderOrZipFile, html)
+        .then((html) => {
+          const filename = `${outputFolderOrZipFile}/index.html`
+          return cy.writeFile(filename, html)
+        })
+        .then(logTiming)
     }
   }
 }

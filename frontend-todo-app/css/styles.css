@@ -196,6 +196,10 @@ header.card h1 {
   flex: 1;
 }
 
+.add .txt-container:focus-within {
+  border-bottom: 0.1rem solid var(--clr-blue);
+}
+
 .add .txt-container .txt-input {
   width: 100%;
   padding: 0.7rem 0;

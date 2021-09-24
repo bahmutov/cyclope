@@ -1,8 +1,11 @@
 node_modules/
-output
-failed/
 cypress/screenshots/
 cypress/videos/
+*.zip
+
+# output folders
 checkbox/
 dark-checkbox/
-*.zip
+output/
+failed/
+page/
