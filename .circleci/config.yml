@@ -18,4 +18,4 @@ workflows:
             # the "on-failure.js" spec should have failed
             # but it should store the full page with resources
             - store_artifacts:
-                path: failed
+                path: cypress/failed
