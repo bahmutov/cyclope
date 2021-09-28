@@ -403,3 +403,10 @@ footer {
     font-size: calc(var(--base-font) * 1.5);
   }
 }
+
+#theme-switcher {
+  transition: all 0.25s ease-in-out;
+}
+#theme-switcher:hover {
+  transform: scale(1.3);
+}
