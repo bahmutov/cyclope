@@ -7,7 +7,7 @@ Cypress.Commands.overwrite(
   'realHover',
   function realHover(realHover, subject, options) {
     console.log('realHover', subject, options)
-    console.log(subject.selector)
+    cy.log(`realHover **${subject.selector}**`)
     // save the hovered selector
     cy.state('hovered', subject.selector)
     realHover(subject, options)
@@ -20,7 +20,7 @@ Cypress.Commands.overwrite(
 // and even Electron does not seem to register the hover event reliably
 describe('hover', { browser: 'chrome' }, () => {
   // works correctly
-  it('over add button', () => {
+  it.only('over the add todo button', () => {
     cy.visit('/')
     cy.get('[data-cy=add-todo]').type('hover{enter}').blur().wait(100)
     cy.get('.add .cb-container').realHover()
