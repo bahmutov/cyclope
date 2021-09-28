@@ -1,15 +1,17 @@
 /// <reference types="cypress" />
 
 import 'cypress-real-events/support'
+import { jUnique } from './utils'
 import { savePage } from '../../src'
 
 Cypress.Commands.overwrite(
   'realHover',
   function realHover(realHover, subject, options) {
     console.log('realHover', subject, options)
-    cy.log(`realHover **${subject.selector}**`)
+    const selector = jUnique(subject)
+    cy.log(`realHover **${selector}**`)
     // save the hovered selector
-    cy.state('hovered', subject.selector)
+    cy.state('hovered', selector)
     realHover(subject, options)
   },
 )
@@ -20,7 +22,7 @@ Cypress.Commands.overwrite(
 // and even Electron does not seem to register the hover event reliably
 describe('hover', { browser: 'chrome' }, () => {
   // works correctly
-  it.only('over the add todo button', () => {
+  it('over the add todo button', () => {
     cy.visit('/')
     cy.get('[data-cy=add-todo]').type('hover{enter}').blur().wait(100)
     cy.get('.add .cb-container').realHover()
@@ -39,9 +41,6 @@ describe('hover', { browser: 'chrome' }, () => {
     cy.get('[data-cy=todo]')
       .should('have.length', 3)
       .eq(1)
-      // hover page save limitation:
-      // have to use a single selector
-      // cy.get('[data-cy=todo]:eq(1)')
       .realHover()
       .then(() => {
         savePage('page/hover-middle-todo')
@@ -57,5 +56,10 @@ describe('hover', { browser: 'chrome' }, () => {
       .then(() => {
         savePage('page/hover-active')()
       })
+  })
+
+  it.only('over the theme switcher', () => {
+    cy.visit('/')
+    cy.get('#theme-switcher').realHover()
   })
 })

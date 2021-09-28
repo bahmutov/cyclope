@@ -2,8 +2,7 @@
 
 // https://github.com/ericclemmons/unique-selector
 import unique from 'unique-selector'
-
-const jUnique = ($el) => unique($el[0])
+import { jUnique } from './utils'
 
 // these tests check how the "unique-selector" helper
 // returns good test selectors

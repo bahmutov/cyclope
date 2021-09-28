@@ -3,5 +3,6 @@
   "supportFile": false,
   "baseUrl": "http://localhost:3777",
   "viewportWidth": 500,
-  "experimentalSessionSupport": true
+  "experimentalSessionSupport": true,
+  "ignoreTestFiles": "utils.js"
 }
