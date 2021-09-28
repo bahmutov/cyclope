@@ -263,15 +263,25 @@ function savePage(outputFolderOrZipFile) {
             { log: false },
           )
         })
-        .then(logTiming)
-    } else {
-      return saveRelativeResources(outputFolderOrZipFile, html)
-        .then((html) => {
-          const filename = `${outputFolderOrZipFile}/index.html`
-          return cy.writeFile(filename, html, { log: false })
+        .then(() => {
+          // form the results object
+          return {
+            filename: outputFolderOrZipFile,
+            width: cy.state('viewportWidth'),
+            height: cy.state('viewportHeight'),
+            hoverSelector: cy.state('hovered'),
+          }
         })
         .then(logTiming)
     }
+
+    // saving the page as a folder
+    return saveRelativeResources(outputFolderOrZipFile, html)
+      .then((html) => {
+        const filename = `${outputFolderOrZipFile}/index.html`
+        return cy.writeFile(filename, html, { log: false })
+      })
+      .then(logTiming)
   }
 }
 

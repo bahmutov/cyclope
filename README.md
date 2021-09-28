@@ -59,6 +59,8 @@ All local resources like images and CSS should be saved as local files. You can 
 .then(savePage('page.zip'))
 ```
 
+When saving the zip, the function yields an object with filename, width, and height properties.
+
 ## Save the failed page
 
 This module includes a utility function to save the page if the test has failed. You can use this function as `afterEach` hook, probably from the support file, so it applies to all tests.

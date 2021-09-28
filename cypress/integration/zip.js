@@ -21,4 +21,11 @@ it('saves zip', () => {
     .eq(1)
     .should('be.checked')
     .then(savePage('dark-checkbox.zip'))
+    // confirm the results
+    .should('deep.equal', {
+      filename: 'dark-checkbox.zip',
+      width: 500,
+      height: 660,
+      hoverSelector: null,
+    })
 })
