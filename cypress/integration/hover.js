@@ -58,7 +58,7 @@ describe('hover', { browser: 'chrome' }, () => {
       })
   })
 
-  it.only('over the theme switcher', () => {
+  it('over the theme switcher', () => {
     cy.visit('/')
     cy.get('#theme-switcher').realHover()
   })
