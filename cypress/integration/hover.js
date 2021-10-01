@@ -1,20 +1,8 @@
 /// <reference types="cypress" />
 
 import 'cypress-real-events/support'
-import { jUnique } from './utils'
-import { savePage } from '../../src'
 
-Cypress.Commands.overwrite(
-  'realHover',
-  function realHover(realHover, subject, options) {
-    console.log('realHover', subject, options)
-    const selector = jUnique(subject)
-    cy.log(`realHover **${selector}**`)
-    // save the hovered selector
-    cy.state('hovered', selector)
-    realHover(subject, options)
-  },
-)
+import { savePage, seePage } from '../../src'
 
 // using cypress-real-events to hover over the element
 // https://github.com/dmtrKovalenko/cypress-real-events
@@ -60,6 +48,14 @@ describe('hover', { browser: 'chrome' }, () => {
 
   it('over the theme switcher', () => {
     cy.visit('/')
-    cy.get('#theme-switcher').realHover()
+    cy.get('[data-cy=add-todo]').type('text title')
+    cy.get('#theme-switcher').realHover().then(seePage('hover-over-sun.png'))
+    cy.contains('Clear Completed')
+      .realHover()
+      .then(seePage('hover-over-clear-completed.png'))
+    cy.get('#theme-switcher').click()
+    cy.get('body').should('not.have.class', 'light')
+    // hmm, this is not working
+    cy.contains('Active').realHover().then(seePage('hover-over-active.png'))
   })
 })

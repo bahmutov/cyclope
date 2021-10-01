@@ -14,20 +14,30 @@ async function upload(options = {}) {
     throw new Error('CYCLOPE_SERVICE_KEY is not set')
   }
 
-  const { filename } = options
+  const { filename, outputFilename } = options
   if (!filename) {
     throw new Error('filename is not set')
   }
   if (!filename.endsWith('.zip')) {
     throw new Error('filename must end with .zip')
   }
+  if (!outputFilename) {
+    throw new Error('outputFilename is not set')
+  }
+  if (!outputFilename.endsWith('.png')) {
+    throw new Error('outputFilename must end with .png')
+  }
+
   // remove filename from the options object
   // add the key to the options object
   const sendOptions = {
     ...options,
-    filename: undefined,
     key,
   }
+  // @ts-ignore
+  delete sendOptions.filename
+  // @ts-ignore
+  delete sendOptions.outputFilename
   // @ts-ignore
   if (!sendOptions.hoverSelector) {
     // @ts-ignore
@@ -48,8 +58,7 @@ async function upload(options = {}) {
   // @ts-ignore
   const response = await got.post(url, postOptions)
   // console.log('response is a buffer?', Buffer.isBuffer(response.rawBody))
-  const outputFilename = 'result.png'
-  fs.writeFileSync('result.png', response.rawBody)
+  fs.writeFileSync(outputFilename, response.rawBody)
   return outputFilename
 }
 

@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 
-import { savePage } from '../../src'
+import { seePage } from '../../src'
 
-it('upload zip', () => {
+it('upload zip to image', () => {
   cy.visit('/')
   // switch to the dark theme
   cy.get('body').should('have.class', 'light')
@@ -20,15 +20,11 @@ it('upload zip', () => {
   cy.get('.cb-input')
     .eq(1)
     .should('be.checked')
-    .then(savePage('dark-checkbox.zip'))
-    // confirm the results
-    .should('deep.equal', {
-      filename: 'dark-checkbox.zip',
-      width: 500,
-      height: 660,
-      hoverSelector: null,
-    })
-    .then((options) => {
-      cy.task('upload', options)
-    })
+    .then(seePage('dark-checkbox.png'))
+
+  // switch to the light theme
+  cy.get('#theme-switcher').click()
+  cy.get('body')
+    .should('have.class', 'light')
+    .then(seePage('light-checkbox.png'))
 })
