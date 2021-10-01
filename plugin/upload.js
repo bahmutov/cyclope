@@ -25,8 +25,13 @@ async function upload(options = {}) {
   // add the key to the options object
   const sendOptions = {
     ...options,
-    filename: null,
+    filename: undefined,
     key,
+  }
+  // @ts-ignore
+  if (!sendOptions.hoverSelector) {
+    // @ts-ignore
+    delete sendOptions.hoverSelector
   }
 
   const search = new URLSearchParams(sendOptions)
