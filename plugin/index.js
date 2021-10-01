@@ -6,6 +6,7 @@ const fs = require('fs')
 const got = require('got')
 const del = require('del')
 const { zipFolder } = require('./zip')
+const { upload } = require('./upload')
 
 const pipeline = promisify(stream.pipeline)
 
@@ -30,23 +31,20 @@ async function saveResource({ outputFolder, fullUrl, srcAttribute }) {
   return null
 }
 
-async function zipFolder({ folder, zipFile }) {
-  console.log('zipping %s to %s', folder, zipFile)
-
-  await del(zipFile)
-
-  await zipFolder(folder, zipFile)
-
-  await del(folder)
-
-  return zipFile
-}
-
 function initCyclope(on, config) {
   on('task', {
     makeFolder,
     saveResource,
-    zipFolder,
+    upload,
+    async zipFolder({ folder, zipFile }) {
+      console.log('zipping %s to %s', folder, zipFile)
+
+      await del(zipFile)
+      await zipFolder(folder, zipFile)
+      await del(folder)
+
+      return zipFile
+    },
   })
 }
 
