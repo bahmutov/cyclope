@@ -150,6 +150,13 @@ function getDOMasHTML() {
     }
   })
 
+  // to correctly serialize the input elements
+  // we need to take the current state value and set it as an attribute
+  const inputs = body.querySelectorAll('input[type=text]')
+  inputs.forEach((input) => {
+    input.setAttribute('value', input.value)
+  })
+
   // if an input element has focus, then the output HTML
   // should set "autofocus" attribute on that input element
   if (doc.activeElement) {
