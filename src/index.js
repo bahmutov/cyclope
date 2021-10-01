@@ -69,17 +69,6 @@ function replaceUrls(baseUrl, style) {
 
 function getDOMasHTML() {
   const doc = cy.state('document')
-  // ughh, want to iterate over all CSS rules and see which ones
-  // are hover and apply to the hovered element (if any)
-  // to change these CSS rules into a CSS class
-  // but getting a weird DOM error trying to get the stylesheet's rules
-  // Cypress._.forEach(doc.styleSheets, function (styleSheet) {
-  // Cannot set property name of [object DOMException] which has only a getter
-  // console.log(styleSheet.rules)
-  // Cypress._.forEach(styleSheet.rules, (rule) => {
-  // console.log('rule', rule.selectorText)
-  // })
-  // })
   const snap = cy.createSnapshot('snap')
 
   // replace external styles with <style> tags
@@ -124,20 +113,6 @@ function getDOMasHTML() {
   )
 
   const body = snap.body.get()[0]
-  const hoverElementSelector = cy.state('hovered')
-  if (hoverElementSelector) {
-    const hoverElement = body.querySelector(hoverElementSelector)
-    console.log('hovering over', hoverElement)
-    console.log(Cypress.$autIframe.contents().find('head')[0])
-    if (hoverElement) {
-      hoverElement.classList.add('hovered')
-      // replace the CSS style <selector>:hover with a class name
-      headHTML = headHTML.replaceAll(
-        hoverElementSelector + ':hover',
-        hoverElementSelector + '.hovered',
-      )
-    }
-  }
 
   // to correctly serialize checked state of checkboxes
   // we need to take the current state and set it as an attribute
