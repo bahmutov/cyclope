@@ -8,7 +8,7 @@ import { savePage, seePage } from '../../src'
 // https://github.com/dmtrKovalenko/cypress-real-events
 // unfortunately limited to Chrome-based browsers
 // and even Electron does not seem to register the hover event reliably
-describe('hover', { browser: 'chrome' }, () => {
+describe('hover', () => {
   // works correctly
   it('over the add todo button', () => {
     cy.visit('/')
