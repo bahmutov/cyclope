@@ -1,11 +1,26 @@
 /// <reference types="cypress" />
 
+import { jUnique } from './utils'
 const { $ } = Cypress
 const path = require('path')
 
 Cypress.on('test:before:run', () => {
   // before each test clear the hover element
   cy.state('hovered', null)
+
+  if (Cypress.Commands._commands.realHover) {
+    Cypress.Commands.overwrite(
+      'realHover',
+      function realHover(realHover, subject, options) {
+        console.log('realHover', subject, options)
+        const selector = jUnique(subject)
+        cy.log(`realHover **${selector}**`)
+        // save the hovered selector
+        cy.state('hovered', selector)
+        realHover(subject, options)
+      },
+    )
+  }
 })
 
 function _styleTag(style) {
@@ -285,8 +300,33 @@ function savePage(outputFolderOrZipFile) {
   }
 }
 
+// TODO: turn into a custom command
+function seePage(outputImageFilename) {
+  expect(outputImageFilename)
+    .to.be.a('string')
+    .and.to.match(/\.png$/)
+  const outputZipFilename = outputImageFilename.replace('.png', '.zip')
+
+  return function seePageNow() {
+    const started = +new Date()
+    return cy.then(savePage(outputZipFilename)).then((options) => {
+      return cy
+        .task('upload', {
+          ...options,
+          outputFilename: outputImageFilename,
+        })
+        .then(() => {
+          const finished = +new Date()
+          const duration = finished - started
+          cy.log(`seePage took **${duration}** ms`)
+        })
+    })
+  }
+}
+
 module.exports = {
   savePage,
   savePageIfTestFailed,
+  seePage,
   utils: { replaceUrls, getDOMasHTML, saveRelativeResources },
 }

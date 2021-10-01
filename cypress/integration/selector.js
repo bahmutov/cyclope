@@ -2,7 +2,7 @@
 
 // https://github.com/ericclemmons/unique-selector
 import unique from 'unique-selector'
-import { jUnique } from './utils'
+import { jUnique } from '../../src/utils'
 
 // these tests check how the "unique-selector" helper
 // returns good test selectors

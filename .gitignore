@@ -2,11 +2,14 @@ node_modules/
 cypress/screenshots/
 cypress/videos/
 *.zip
+# private environment variables
+.as-a.ini
 
-# output folders
+# output folders and files
 checkbox/
 dark-checkbox/
 output/
 failed/
 page/
 .DS_Store
+*.png

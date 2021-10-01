@@ -75,6 +75,17 @@ All pages are saved in the folder `cypress/failed/<spec name>/<test name>`.
 
 **Tip:** store the `cypress/failed` as a test artifact on CI. If a test fails, download and open the `folder/index.html` to inspect the application's structure at the moment of failure.
 
+## seePage
+
+Generates consistent PNG image using external Cyclope image service. Requires `CYCLOPE_SERVICE_URL` and `CYCLOPE_SERVICE_KEY` environment variables when running Cypress. Supports hover
+
+```js
+cy.get('#theme-switcher')
+  .realHover()
+  .then(seePage('hover-over-sun.png'))
+// saves the generated "hover-over-sun.png" image
+```
+
 ## Small print
 
 Author: Gleb Bahmutov &lt;gleb.bahmutov@gmail.com&gt; &copy; 2021
