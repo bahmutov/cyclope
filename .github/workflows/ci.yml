@@ -17,7 +17,7 @@ jobs:
           config: ignoreTestFiles=on-failure.js
         env:
           CYCLOPE_SERVICE_URL: ${{ secrets.CYCLOPE_SERVICE_URL }}
-          CYCLOPE_SERVICE_KEY: $${{ secrets.CYCLOPE_SERVICE_KEY }}
+          CYCLOPE_SERVICE_KEY: ${{ secrets.CYCLOPE_SERVICE_KEY }}
 
       # https://github.com/actions/upload-artifact
       - uses: actions/upload-artifact@v2
