@@ -2,6 +2,8 @@ node_modules/
 cypress/screenshots/
 cypress/videos/
 *.zip
+# private environment variables
+.as-a.ini
 
 # output folders
 checkbox/
