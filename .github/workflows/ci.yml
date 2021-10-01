@@ -15,13 +15,18 @@ jobs:
           start: npm start
           wait-on: 'http://localhost:3777'
           config: ignoreTestFiles=on-failure.js
+        env:
+          CYCLOPE_SERVICE_URL: ${{ secrets.CYCLOPE_SERVICE_URL }}
+          CYCLOPE_SERVICE_KEY: $${{ secrets.CYCLOPE_SERVICE_KEY }}
 
       # https://github.com/actions/upload-artifact
       - uses: actions/upload-artifact@v2
         if: always()
         with:
           name: page
-          path: page/
+          path: |
+            page/
+            result.png
 
       - name: Semantic Release 🚀
         uses: cycjimmy/semantic-release-action@v2
