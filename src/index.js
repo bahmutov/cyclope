@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { jUnique } from './utils'
+const { jUnique } = require('./utils')
 const { $ } = Cypress
 const path = require('path')
 

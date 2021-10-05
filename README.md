@@ -80,6 +80,7 @@ All pages are saved in the folder `cypress/failed/<spec name>/<test name>`.
 Generates consistent PNG image using external Cyclope image service. Requires `CYCLOPE_SERVICE_URL` and `CYCLOPE_SERVICE_KEY` environment variables when running Cypress. Supports hover
 
 ```js
+import { seePage } from 'cyclope'
 cy.get('#theme-switcher')
   .realHover()
   .then(seePage('hover-over-sun.png'))

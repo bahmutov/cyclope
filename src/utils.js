@@ -2,6 +2,8 @@
 /// <reference types="cypress" />
 
 // https://github.com/ericclemmons/unique-selector
-import unique from 'unique-selector'
+const unique = require('unique-selector')
 
-export const jUnique = ($el) => unique($el[0])
+const jUnique = ($el) => unique($el[0])
+
+module.exports = { jUnique }
