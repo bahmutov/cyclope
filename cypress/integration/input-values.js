@@ -1,7 +1,4 @@
-/// <reference types="cypress" />
-
-import { savePage } from '../../src'
-
+// @ts-check
 // https://github.com/bahmutov/cyclope/issues/14
 it('shows input values', () => {
   cy.visit('/')
@@ -9,11 +6,11 @@ it('shows input values', () => {
   cy.get('[data-cy=add-todo]')
     .type('Learn Cypress')
     .should('have.value', 'Learn Cypress')
-    .then(savePage('page/input-values'))
+    .savePage('page/input-values')
 
   cy.get('[data-cy=add-todo]')
     .clear()
     .type('and test{enter}')
     .type('code code')
-    .then(savePage('page/input-values2'))
+    .savePage('page/input-values2')
 })

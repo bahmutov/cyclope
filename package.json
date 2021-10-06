@@ -3,6 +3,7 @@
   "version": "0.0.0-development",
   "description": "Cypress DOM snapshots and consistent image diffing in the cloud",
   "main": "src",
+  "types": "src",
   "files": [
     "src",
     "plugin"

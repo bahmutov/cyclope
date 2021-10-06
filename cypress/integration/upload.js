@@ -1,7 +1,4 @@
-/// <reference types="cypress" />
-
-import { seePage } from '../../src'
-
+// @ts-check
 it('upload zip to image', () => {
   cy.visit('/')
   // switch to the dark theme
@@ -17,14 +14,11 @@ it('upload zip to image', () => {
     .eq(1)
     .find('.cb-input')
     .check()
-  cy.get('.cb-input')
-    .eq(1)
-    .should('be.checked')
-    .then(seePage('dark-checkbox.png'))
+  cy.get('.cb-input').eq(1).should('be.checked')
+  cy.clope('dark-checkbox.png')
 
   // switch to the light theme
   cy.get('#theme-switcher').click()
-  cy.get('body')
-    .should('have.class', 'light')
-    .then(seePage('light-checkbox.png'))
+  cy.get('body').should('have.class', 'light')
+  cy.clope('light-checkbox.png')
 })
