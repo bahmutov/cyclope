@@ -1,5 +1,4 @@
 // @ts-check
-/// <reference types="cypress" />
 
 // https://github.com/ericclemmons/unique-selector
 const unique = require('unique-selector').default

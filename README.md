@@ -47,15 +47,13 @@ If you need to save the current web application page, including any resources
 
 ```js
 // cypress/integration/spec.js
-import {savePage} from 'cyclope'
-
 it('saves the page', () => {
   // normal Cypress commands
   cy.contains('.some-selector', 'some text')
     .should('be.visible')
     // when the app has reached the desired state
     // save the page in the folder "page"
-    .then(savePage('page'))
+    .savePage('page')
 })
 ```
 
@@ -63,7 +61,7 @@ All local resources like images and CSS should be saved as local files. You can 
 
 ```js
 // use .zip extension to zip the folder into a file
-.then(savePage('page.zip'))
+cy.savePage('page.zip')
 ```
 
 When saving the zip, the function yields an object with filename, width, and height properties.

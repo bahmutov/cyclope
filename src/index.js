@@ -1,4 +1,5 @@
 // @ts-check
+/// <reference path="./index.d.ts" />
 
 const { jUnique } = require('./utils')
 const { $ } = Cypress
@@ -231,55 +232,53 @@ function savePageIfTestFailed() {
 }
 
 function savePage(outputFolderOrZipFile) {
-  return function savePageNow() {
-    const started = +new Date()
-    cy.log(`cyclope: **${outputFolderOrZipFile}**`)
+  const started = +new Date()
+  cy.log(`cyclope: **${outputFolderOrZipFile}**`)
 
-    function logTiming() {
-      const finished = +new Date()
-      const duration = finished - started
-      cy.log(`savePage took **${duration}** ms`)
-    }
+  function logTiming() {
+    const finished = +new Date()
+    const duration = finished - started
+    cy.log(`savePage took **${duration}** ms`)
+  }
 
-    const html = getDOMasHTML()
-    if (outputFolderOrZipFile.endsWith('.zip')) {
-      // cy.log(`Saving ${outputFolderOrZipFile}`)
-      const tempFolder = outputFolderOrZipFile.replace(/\.zip$/, '')
-      return saveRelativeResources(tempFolder, html)
-        .then((html) => {
-          const filename = `${tempFolder}/index.html`
-          return cy.writeFile(filename, html, { log: false })
-        })
-        .then(() => {
-          return cy.task(
-            'zipFolder',
-            {
-              folder: tempFolder,
-              zipFile: outputFolderOrZipFile,
-            },
-            { log: false },
-          )
-        })
-        .then(() => {
-          // form the results object
-          return {
-            filename: outputFolderOrZipFile,
-            width: cy.state('viewportWidth'),
-            height: cy.state('viewportHeight'),
-            hoverSelector: cy.state('hovered'),
-          }
-        })
-        .then(logTiming)
-    }
-
-    // saving the page as a folder
-    return saveRelativeResources(outputFolderOrZipFile, html)
+  const html = getDOMasHTML()
+  if (outputFolderOrZipFile.endsWith('.zip')) {
+    // cy.log(`Saving ${outputFolderOrZipFile}`)
+    const tempFolder = outputFolderOrZipFile.replace(/\.zip$/, '')
+    return saveRelativeResources(tempFolder, html)
       .then((html) => {
-        const filename = `${outputFolderOrZipFile}/index.html`
+        const filename = `${tempFolder}/index.html`
         return cy.writeFile(filename, html, { log: false })
+      })
+      .then(() => {
+        return cy.task(
+          'zipFolder',
+          {
+            folder: tempFolder,
+            zipFile: outputFolderOrZipFile,
+          },
+          { log: false },
+        )
+      })
+      .then(() => {
+        // form the results object
+        return {
+          filename: outputFolderOrZipFile,
+          width: cy.state('viewportWidth'),
+          height: cy.state('viewportHeight'),
+          hoverSelector: cy.state('hovered'),
+        }
       })
       .then(logTiming)
   }
+
+  // saving the page as a folder
+  return saveRelativeResources(outputFolderOrZipFile, html)
+    .then((html) => {
+      const filename = `${outputFolderOrZipFile}/index.html`
+      return cy.writeFile(filename, html, { log: false })
+    })
+    .then(logTiming)
 }
 
 function cyclope(outputImageFilename) {
@@ -289,7 +288,7 @@ function cyclope(outputImageFilename) {
   const outputZipFilename = outputImageFilename.replace('.png', '.zip')
 
   const started = +new Date()
-  return cy.then(savePage(outputZipFilename)).then((options) => {
+  return cy.savePage(outputZipFilename).then((options) => {
     return cy
       .task('upload', {
         ...options,
@@ -305,9 +304,10 @@ function cyclope(outputImageFilename) {
 
 Cypress.Commands.add('cyclope', cyclope)
 Cypress.Commands.add('clope', cyclope)
+Cypress.Commands.add('savePage', savePage)
 
 module.exports = {
-  savePage,
   savePageIfTestFailed,
-  utils: { replaceUrls, getDOMasHTML, saveRelativeResources },
+  savePage,
+  utils: { replaceUrls, getDOMasHTML, saveRelativeResources, savePage },
 }

@@ -1,8 +1,6 @@
 // @ts-check
 import 'cypress-real-events/support'
 
-import { savePage } from '../../src'
-
 // using cypress-real-events to hover over the element
 // https://github.com/dmtrKovalenko/cypress-real-events
 // unfortunately limited to Chrome-based browsers
@@ -13,9 +11,7 @@ describe('hover', () => {
     cy.visit('/')
     cy.get('[data-cy=add-todo]').type('hover{enter}').blur().wait(100)
     cy.get('.add .cb-container').realHover()
-    cy.get('[data-cy=todo]')
-      .should('have.length', 1)
-      .then(savePage('page/hover'))
+    cy.get('[data-cy=todo]').should('have.length', 1).savePage('page/hover')
   })
 
   // not working since cannot select the right button to hover over
@@ -29,23 +25,17 @@ describe('hover', () => {
       .should('have.length', 3)
       .eq(1)
       .realHover()
-      .then(() => {
-        savePage('page/hover-middle-todo')
-      })
+      .savePage('page/hover-middle-todo')
   })
 
   // not working correctly, complicated hover class
   it('over the active link', () => {
     cy.visit('/')
     cy.get('[data-cy=add-todo]').type('first{enter}')
-    cy.get('button#active')
-      .realHover()
-      .then(() => {
-        savePage('page/hover-active')()
-      })
+    cy.get('button#active').realHover().savePage('page/hover-active')
   })
 
-  it.only('over the theme switcher', () => {
+  it('over the theme switcher', () => {
     cy.visit('/')
     cy.get('[data-cy=add-todo]').type('text title')
     cy.get('#theme-switcher').realHover()
