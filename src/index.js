@@ -1,4 +1,4 @@
-/// <reference types="cypress" />
+// @ts-check
 
 const { jUnique } = require('./utils')
 const { $ } = Cypress
@@ -282,33 +282,32 @@ function savePage(outputFolderOrZipFile) {
   }
 }
 
-// TODO: turn into a custom command
-function seePage(outputImageFilename) {
+function cyclope(outputImageFilename) {
   expect(outputImageFilename)
     .to.be.a('string')
     .and.to.match(/\.png$/)
   const outputZipFilename = outputImageFilename.replace('.png', '.zip')
 
-  return function seePageNow() {
-    const started = +new Date()
-    return cy.then(savePage(outputZipFilename)).then((options) => {
-      return cy
-        .task('upload', {
-          ...options,
-          outputFilename: outputImageFilename,
-        })
-        .then(() => {
-          const finished = +new Date()
-          const duration = finished - started
-          cy.log(`seePage took **${duration}** ms`)
-        })
-    })
-  }
+  const started = +new Date()
+  return cy.then(savePage(outputZipFilename)).then((options) => {
+    return cy
+      .task('upload', {
+        ...options,
+        outputFilename: outputImageFilename,
+      })
+      .then(() => {
+        const finished = +new Date()
+        const duration = finished - started
+        cy.log(`seePage took **${duration}** ms`)
+      })
+  })
 }
+
+Cypress.Commands.add('cyclope', cyclope)
+Cypress.Commands.add('clope', cyclope)
 
 module.exports = {
   savePage,
   savePageIfTestFailed,
-  seePage,
   utils: { replaceUrls, getDOMasHTML, saveRelativeResources },
 }

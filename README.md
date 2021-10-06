@@ -21,6 +21,13 @@ $ npm i -D cyclope
 $ yarn add -D cyclope
 ```
 
+Include the plugin from your support file or an individual spec file
+
+```js
+// cypress/support/index.js
+import 'cyclope'
+```
+
 Include the plugin from your plugins file
 
 ```js
@@ -75,16 +82,21 @@ All pages are saved in the folder `cypress/failed/<spec name>/<test name>`.
 
 **Tip:** store the `cypress/failed` as a test artifact on CI. If a test fails, download and open the `folder/index.html` to inspect the application's structure at the moment of failure.
 
-## seePage
+## cyclope
+
+Alias `clope`
 
 Generates consistent PNG image using external Cyclope image service. Requires `CYCLOPE_SERVICE_URL` and `CYCLOPE_SERVICE_KEY` environment variables when running Cypress. Supports hover
 
 ```js
-import { seePage } from 'cyclope'
 cy.get('#theme-switcher')
   .realHover()
-  .then(seePage('hover-over-sun.png'))
+  .cyclope('hover-over-sun.png')
 // saves the generated "hover-over-sun.png" image
+// equivalent
+cy.get('#theme-switcher')
+  .realHover()
+cy.clope()
 ```
 
 ## Small print

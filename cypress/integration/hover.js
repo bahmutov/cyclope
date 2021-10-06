@@ -1,8 +1,7 @@
-/// <reference types="cypress" />
-
+// @ts-check
 import 'cypress-real-events/support'
 
-import { savePage, seePage } from '../../src'
+import { savePage } from '../../src'
 
 // using cypress-real-events to hover over the element
 // https://github.com/dmtrKovalenko/cypress-real-events
@@ -46,16 +45,18 @@ describe('hover', () => {
       })
   })
 
-  it('over the theme switcher', () => {
+  it.only('over the theme switcher', () => {
     cy.visit('/')
     cy.get('[data-cy=add-todo]').type('text title')
-    cy.get('#theme-switcher').realHover().then(seePage('hover-over-sun.png'))
+    cy.get('#theme-switcher').realHover()
+    cy.clope('hover-over-sun.png')
     cy.contains('Clear Completed')
       .realHover()
-      .then(seePage('hover-over-clear-completed.png'))
+      // .cyclope is an alias to .clope
+      .cyclope('hover-over-clear-completed.png')
     cy.get('#theme-switcher').click()
     cy.get('body').should('not.have.class', 'light')
     // hmm, this is not working
-    cy.contains('Active').realHover().then(seePage('hover-over-active.png'))
+    cy.contains('Active').realHover().clope('hover-over-active.png')
   })
 })
