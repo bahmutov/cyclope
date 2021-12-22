@@ -4,8 +4,6 @@
 
 > Cypress DOM snapshots and consistent image diffing in the cloud
 
-<h1>DO NOT USE. TOO EARLY ☠️</h1>
-
 ## Blog posts
 
 - [Save The Page On Test Failure](https://glebbahmutov.com/blog/cyclope-intro/)
