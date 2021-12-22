@@ -227,7 +227,7 @@ function savePageIfTestFailed() {
       Cypress.currentTest.title,
     )
     cy.log(outputFolder)
-    return savePage(outputFolder)()
+    return savePage(outputFolder)
   }
 }
 
