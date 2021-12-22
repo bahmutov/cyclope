@@ -34,11 +34,11 @@
   },
   "homepage": "https://github.com/bahmutov/cyclope#readme",
   "devDependencies": {
-    "cypress": "^8.4.1",
-    "cypress-expect": "^2.4.3",
-    "cypress-real-events": "^1.5.1",
-    "prettier": "^2.3.2",
-    "semantic-release": "^17.4.7",
+    "cypress": "8.4.1",
+    "cypress-expect": "2.4.3",
+    "cypress-real-events": "1.5.1",
+    "prettier": "2.3.2",
+    "semantic-release": "17.4.7",
     "serve": "^12.0.0",
     "start-server-and-test": "^1.14.0"
   },
