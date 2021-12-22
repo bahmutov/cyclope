@@ -31,11 +31,23 @@ async function saveResource({ outputFolder, fullUrl, srcAttribute }) {
   return null
 }
 
+/**
+ * Prints a message before saving the full page HTML
+ * @param {object} spec Test information
+ */
+function printFailedTestMessage(info) {
+  console.log('cyclope: saving page for failed test')
+  console.log('  spec "%s"', info.spec)
+  console.log('  test "%s"', info.title)
+  return null
+}
+
 function initCyclope(on, config) {
   on('task', {
     makeFolder,
     saveResource,
     upload,
+    printFailedTestMessage,
     async zipFolder({ folder, zipFile }) {
       console.log('zipping "%s" to "%s"', folder, zipFile)
 

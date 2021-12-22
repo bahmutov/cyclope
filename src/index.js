@@ -220,14 +220,21 @@ function saveRelativeResources(outputFolder, html) {
  */
 function savePageIfTestFailed() {
   if (cy.state('test').isFailed()) {
-    const outputFolder = path.join(
-      'cypress',
-      'failed',
-      Cypress.spec.name,
-      Cypress.currentTest.title,
-    )
-    cy.log(outputFolder)
-    return savePage(outputFolder)
+    return cy
+      .task('printFailedTestMessage', {
+        spec: Cypress.spec.name,
+        title: Cypress.currentTest.title,
+      })
+      .then(() => {
+        const outputFolder = path.join(
+          'cypress',
+          'failed',
+          Cypress.spec.name,
+          Cypress.currentTest.title,
+        )
+        cy.log(outputFolder)
+        return savePage(outputFolder)
+      })
   }
 }
 
