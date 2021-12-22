@@ -1,8 +1,14 @@
 # cyclope
+
 [![ci status][ci image]][ci url] [![renovate-app badge][renovate-badge]][renovate-app] [![CircleCI](https://circleci.com/gh/bahmutov/cyclope/tree/main.svg?style=svg)](https://circleci.com/gh/bahmutov/cyclope/tree/main) ![cypress version](https://img.shields.io/badge/cypress-9.2.0-brightgreen)
+
 > Cypress DOM snapshots and consistent image diffing in the cloud
 
 <h1>DO NOT USE. TOO EARLY ☠️</h1>
+
+## Blog posts
+
+- [Save The Page On Test Failure](https://glebbahmutov.com/blog/cyclope-intro/)
 
 ## Videos
 
@@ -24,7 +30,8 @@ $ yarn add -D cyclope
 Include the plugin from your support file or an individual spec file
 
 ```js
-// cypress/support/index.js
+// in cypress/support/index.js
+// https://github.com/bahmutov/cyclope
 import 'cyclope'
 ```
 
@@ -33,12 +40,13 @@ Include the plugin from your plugins file
 ```js
 // cypress/plugins/index.js
 module.exports = (on, config) => {
-  require('cyclope/plugin')(on, config);
+  // https://github.com/bahmutov/cyclope
+  require('cyclope/plugin')(on, config)
 
   // IMPORTANT to return the config object
   // with the any changed environment variables
-  return config;
-};
+  return config
+}
 ```
 
 ## Save the current page
@@ -71,7 +79,8 @@ When saving the zip, the function yields an object with filename, width, and hei
 This module includes a utility function to save the page if the test has failed. You can use this function as `afterEach` hook, probably from the support file, so it applies to all tests.
 
 ```js
-// cypress/support/index.js
+// in cypress/support/index.js
+// https://github.com/bahmutov/cyclope
 import { savePageIfTestFailed } from 'cyclope'
 afterEach(savePageIfTestFailed)
 ```
@@ -87,13 +96,10 @@ Alias `clope`
 Generates consistent PNG image using external Cyclope image service. Requires `CYCLOPE_SERVICE_URL` and `CYCLOPE_SERVICE_KEY` environment variables when running Cypress. Supports hover
 
 ```js
-cy.get('#theme-switcher')
-  .realHover()
-  .cyclope('hover-over-sun.png')
+cy.get('#theme-switcher').realHover().cyclope('hover-over-sun.png')
 // saves the generated "hover-over-sun.png" image
 // equivalent
-cy.get('#theme-switcher')
-  .realHover()
+cy.get('#theme-switcher').realHover()
 cy.clope()
 ```
 
