@@ -13,7 +13,7 @@ Cypress.on('test:before:run', () => {
     Cypress.Commands.overwrite(
       'realHover',
       function realHover(realHover, subject, options) {
-        console.log('realHover', subject, options)
+        // console.log('realHover', subject, options)
         const selector = jUnique(subject)
         cy.log(`realHover **${selector}**`)
         // save the hovered selector
@@ -136,7 +136,7 @@ function getDOMasHTML() {
   // if an input element has focus, then the output HTML
   // should set "autofocus" attribute on that input element
   if (doc.activeElement) {
-    console.log('active element', doc.activeElement)
+    // console.log('active element', doc.activeElement)
     // cannot check the reference directly, because
     // we are already dealing with a copy of the document
     const activeElementHTML = doc.activeElement.outerHTML

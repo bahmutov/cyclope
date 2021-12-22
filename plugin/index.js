@@ -11,13 +11,13 @@ const { upload } = require('./upload')
 const pipeline = promisify(stream.pipeline)
 
 async function makeFolder(path) {
-  console.log('making folder %s', path)
+  console.log('making folder "%s"', path)
   await mkdirp(path, { recursive: true })
   return path
 }
 
 async function saveResource({ outputFolder, fullUrl, srcAttribute }) {
-  console.log('saving %s -> %s', fullUrl, srcAttribute)
+  console.log('saving "%s" -> "%s"', fullUrl, srcAttribute)
   if (!fullUrl) {
     throw new Error('Missing fullUrl')
   }
@@ -37,7 +37,7 @@ function initCyclope(on, config) {
     saveResource,
     upload,
     async zipFolder({ folder, zipFile }) {
-      console.log('zipping %s to %s', folder, zipFile)
+      console.log('zipping "%s" to "%s"', folder, zipFile)
 
       await del(zipFile)
       await zipFolder(folder, zipFile)
