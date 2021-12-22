@@ -15,7 +15,8 @@
     "cy:run": "cypress run",
     "dev": "start-test 3777 cy:open",
     "semantic-release": "semantic-release",
-    "fail:example": "cypress-expect --failing 1 --spec cypress/integration/example/on-failure.js"
+    "fail:example": "cypress-expect --failing 1 --spec cypress/integration/example/on-failure.js",
+    "postfail:example": "ls -laR page"
   },
   "repository": {
     "type": "git",
