@@ -103,6 +103,11 @@ cy.get('#theme-switcher').realHover()
 cy.clope()
 ```
 
+## Examples
+
+- [todo-app-for-cyclope](https://github.com/bahmutov/todo-app-for-cyclope)
+- [sudoku-mock-module](https://github.com/bahmutov/sudoku-mock-module)
+
 ## Small print
 
 Author: Gleb Bahmutov &lt;gleb.bahmutov@gmail.com&gt; &copy; 2021
