@@ -37,7 +37,7 @@
   "devDependencies": {
     "cypress": "9.4.1",
     "cypress-expect": "2.5.1",
-    "cypress-real-events": "1.6.0",
+    "cypress-real-events": "1.7.0",
     "prettier": "2.5.1",
     "semantic-release": "19.0.2",
     "serve": "^12.0.0",
