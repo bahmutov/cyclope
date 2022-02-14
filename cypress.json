@@ -3,5 +3,5 @@
   "baseUrl": "http://localhost:3777",
   "viewportWidth": 500,
   "experimentalSessionSupport": true,
-  "ignoreTestFiles": "utils.js"
+  "ignoreTestFiles": ["utils.js", "*.html"]
 }
