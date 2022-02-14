@@ -189,6 +189,8 @@ function saveRelativeResources(outputFolder, html) {
     html = replaced
       .replace(/src="\/\//g, 'src="https://')
       .replace(/href="\/\//g, 'href="https://')
+      // replace all "on*" attributes with "data-*"
+      .replace(/on[a-z]+/g, 'data-$&')
 
     $(html)
       .find('img')
