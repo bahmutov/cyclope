@@ -186,7 +186,9 @@ function saveRelativeResources(outputFolder, html) {
     // if there are 3rd party resources without a protocol,
     // assume they are https and put the full protocol in
     // so they open int the browser when clicked on the HTML file
-    html = replaced.replace(/src="\/\//g, 'src="https://')
+    html = replaced
+      .replace(/src="\/\//g, 'src="https://')
+      .replace(/href="\/\//g, 'href="https://')
 
     $(html)
       .find('img')
