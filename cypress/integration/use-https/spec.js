@@ -6,4 +6,9 @@ it('assumes HTTPS for resources', { baseUrl: null }, () => {
     // URL does not have a protocol, starts with "//"
     .should('match', /^\/\//)
   cy.savePage('use-https')
+  // the resource without a protocol is assumed to be https
+  cy.readFile('use-https/index.html').should(
+    'include',
+    '<img src="https://glebbahmutov.com/',
+  )
 })
