@@ -183,7 +183,10 @@ function saveRelativeResources(outputFolder, html) {
       )
     })
 
-    html = replaced
+    // if there are 3rd party resources without a protocol,
+    // assume they are https and put the full protocol in
+    // so they open int the browser when clicked on the HTML file
+    html = replaced.replace(/src="\/\//g, 'src="https://')
 
     $(html)
       .find('img')
@@ -191,6 +194,12 @@ function saveRelativeResources(outputFolder, html) {
         const imageSource = img.getAttribute('src')
         if (isRelative(imageSource)) {
           // console.log('relative image', imageSource)
+          if (imageSource.startsWith('//')) {
+            // not a relative resource, but assume external HTTPs resource
+            img.setAttribute('src', `https:${imageSource}`)
+            return
+          }
+
           if (alreadySaved[imageSource]) {
             return
           }
