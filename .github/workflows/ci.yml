@@ -14,7 +14,7 @@ jobs:
         with:
           start: npm start
           wait-on: 'http://localhost:3777'
-          config: ignoreTestFiles=on-failure.js
+          config: 'ignoreTestFiles=["on-failure.js","index.html"]'
         env:
           CYCLOPE_SERVICE_URL: ${{ secrets.CYCLOPE_SERVICE_URL }}
           CYCLOPE_SERVICE_KEY: ${{ secrets.CYCLOPE_SERVICE_KEY }}
