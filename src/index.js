@@ -68,6 +68,10 @@ function replaceUrls(baseUrl, style) {
   }
 }
 
+const onAttributesToRemove = Object.keys(HTMLElement.prototype).filter((s) =>
+  s.startsWith('on'),
+)
+
 function getDOMasHTML() {
   const doc = cy.state('document')
   const snap = cy.createSnapshot('snap')
@@ -189,8 +193,13 @@ function saveRelativeResources(outputFolder, html) {
     html = replaced
       .replace(/src="\/\//g, 'src="https://')
       .replace(/href="\/\//g, 'href="https://')
-      // replace all "on*" attributes with "data-*"
-      .replace(/on[a-z]+/g, 'data-$&')
+    // replace all "on*" attributes with "data-*"
+    // https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers
+    // probably a better solution would be to look at the attributes, and
+    // not on the HTML source text
+    onAttributesToRemove.forEach((attributeName) => {
+      html = html.replaceAll(' ' + attributeName, ` data-${attributeName}`)
+    })
 
     $(html)
       .find('img')
