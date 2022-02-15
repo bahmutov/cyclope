@@ -11,4 +11,6 @@ it('assumes HTTPS for resources', { baseUrl: null }, () => {
     .should('include', '<img src="https://glebbahmutov.com/')
     // <link href="//..."> are transformed to https
     .and('include', 'href="https://example.com')
+    // all "on*" attributes are removed to avoid loading
+    .and('not.include', ' onloaded')
 })
