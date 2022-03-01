@@ -329,6 +329,7 @@ function cyclope(outputImageFilename, commandOptions = {}) {
     return cy
       .task('upload', {
         ...options,
+        elementSelector: commandOptions.elementSelector,
         outputFilename: outputImageFilename,
       })
       .then(() => {

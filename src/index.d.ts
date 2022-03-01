@@ -16,6 +16,11 @@ declare namespace Cypress {
     removeIframes?: boolean
   }
 
+  interface ImageOptions extends SavePageOptions {
+    /** CSS selector to limit the screenshot to */
+    elementSelector?: string
+  }
+
   interface Chainable {
     /**
      * Creates an accurate image from the current page using
@@ -23,10 +28,7 @@ declare namespace Cypress {
      * @param outputImageFilename string Output PNG filename to save
      * @alias cyclope
      */
-    clope(
-      outputImageFilename: string,
-      options?: SavePageOptions,
-    ): Chainable<void>
+    clope(outputImageFilename: string, options?: ImageOptions): Chainable<void>
     /**
      * Creates an accurate image from the current page using
      * an external Cyclope image service
@@ -35,7 +37,7 @@ declare namespace Cypress {
      */
     cyclope(
       outputImageFilename: string,
-      options?: SavePageOptions,
+      options?: ImageOptions,
     ): Chainable<void>
 
     /**
