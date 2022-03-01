@@ -9,6 +9,7 @@ jobs:
 
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
+      # https://github.com/cypress-io/github-action
       - name: Cypress tests 🧪
         uses: cypress-io/github-action@v2
         with:
@@ -18,6 +19,15 @@ jobs:
         env:
           CYCLOPE_SERVICE_URL: ${{ secrets.CYCLOPE_SERVICE_URL }}
           CYCLOPE_SERVICE_KEY: ${{ secrets.CYCLOPE_SERVICE_KEY }}
+
+      - name: Can skip using Cyclope service 🧪
+        uses: cypress-io/github-action@v2
+        with:
+          # we have already installed all dependencies above
+          install: false
+          start: npm start
+          wait-on: 'http://localhost:3777'
+          spec: 'cypress/integration/element-image.js'
 
       # https://github.com/actions/upload-artifact
       - uses: actions/upload-artifact@v2

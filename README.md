@@ -109,6 +109,18 @@ cy.get('#theme-switcher').realHover()
 cy.clope()
 ```
 
+If you want to simply skip DOM upload and image generation if the Cyclope service is not configured, set the Cypress environment option, for example using the `cypress.json` file
+
+```json
+{
+  "env": {
+    "cyclope": {
+      "skipUploadWithoutUrl": true
+    }
+  }
+}
+```
+
 ## Examples
 
 - [todo-app-for-cyclope](https://github.com/bahmutov/todo-app-for-cyclope)

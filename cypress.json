@@ -3,5 +3,10 @@
   "baseUrl": "http://localhost:3777",
   "viewportWidth": 500,
   "experimentalSessionSupport": true,
-  "ignoreTestFiles": ["utils.js", "*.html"]
+  "ignoreTestFiles": ["utils.js", "*.html"],
+  "env": {
+    "cyclope": {
+      "skipUploadWithoutUrl": true
+    }
+  }
 }
