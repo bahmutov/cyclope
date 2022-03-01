@@ -72,7 +72,7 @@ const onAttributesToRemove = Object.keys(HTMLElement.prototype).filter((s) =>
   s.startsWith('on'),
 )
 
-function getDOMasHTML() {
+function getDOMasHTML(options = {}) {
   const doc = cy.state('document')
   const snap = cy.createSnapshot('snap')
 
@@ -118,6 +118,13 @@ function getDOMasHTML() {
   )
 
   const body = snap.body.get()[0]
+
+  if (options.removeIframes) {
+    // remove all iframes
+    body.querySelectorAll('iframe').forEach((iframe) => {
+      iframe.remove()
+    })
+  }
 
   // to correctly serialize checked state of checkboxes
   // we need to take the current state and set it as an attribute
@@ -230,6 +237,7 @@ function saveRelativeResources(outputFolder, html) {
           )
         }
       })
+
     return cy.wrap(html, { log: false })
   })
 }
@@ -260,7 +268,7 @@ function savePageIfTestFailed() {
   }
 }
 
-function savePage(outputFolderOrZipFile) {
+function savePage(outputFolderOrZipFile, options = {}) {
   const started = +new Date()
   cy.log(`cyclope: **${outputFolderOrZipFile}**`)
 
@@ -270,7 +278,7 @@ function savePage(outputFolderOrZipFile) {
     cy.log(`savePage took **${duration}** ms`)
   }
 
-  const html = getDOMasHTML()
+  const html = getDOMasHTML(options)
   if (outputFolderOrZipFile.endsWith('.zip')) {
     // cy.log(`Saving ${outputFolderOrZipFile}`)
     const tempFolder = outputFolderOrZipFile.replace(/\.zip$/, '')
@@ -310,14 +318,14 @@ function savePage(outputFolderOrZipFile) {
     .then(logTiming)
 }
 
-function cyclope(outputImageFilename) {
+function cyclope(outputImageFilename, commandOptions = {}) {
   expect(outputImageFilename)
     .to.be.a('string')
     .and.to.match(/\.png$/)
   const outputZipFilename = outputImageFilename.replace('.png', '.zip')
 
   const started = +new Date()
-  return cy.savePage(outputZipFilename).then((options) => {
+  return cy.savePage(outputZipFilename, commandOptions).then((options) => {
     return cy
       .task('upload', {
         ...options,

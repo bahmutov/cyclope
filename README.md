@@ -72,6 +72,14 @@ cy.savePage('page.zip')
 
 When saving the zip, the function yields an object with filename, width, and height properties.
 
+### Options
+
+- `removeIframes` (false by default) removes all `<iframe>` elements from the page before saving
+
+```js
+cy.savePage('name', { removeIframes: true })
+```
+
 ## Save the failed page
 
 This module includes a utility function to save the page if the test has failed. You can use this function as `afterEach` hook, probably from the support file, so it applies to all tests.
