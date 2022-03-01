@@ -318,6 +318,10 @@ function savePage(outputFolderOrZipFile, options = {}) {
     .then(logTiming)
 }
 
+function getPluginOptions() {
+  return Cypress._.get(Cypress.env(), 'cyclope', {})
+}
+
 function cyclope(outputImageFilename, commandOptions = {}) {
   expect(outputImageFilename)
     .to.be.a('string')
