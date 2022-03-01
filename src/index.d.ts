@@ -9,6 +9,13 @@ declare namespace Cypress {
     hoverSelector: string
   }
 
+  interface SavePageOptions {
+    /**
+     * Remove all iframe elements before saving, default false
+     */
+    removeIframes?: boolean
+  }
+
   interface Chainable {
     /**
      * Creates an accurate image from the current page using
@@ -29,6 +36,9 @@ declare namespace Cypress {
      * Saved the current page DOM snapshot as a folder or a zip file
      * @param outputFolderOrZipFile String Output folder or zip file to save
      */
-    savePage(outputFolderOrZipFile: string): Chainable<savePageOutput>
+    savePage(
+      outputFolderOrZipFile: string,
+      options?: SavePageOptions,
+    ): Chainable<savePageOutput>
   }
 }
