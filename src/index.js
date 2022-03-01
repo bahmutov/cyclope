@@ -318,14 +318,14 @@ function savePage(outputFolderOrZipFile, options = {}) {
     .then(logTiming)
 }
 
-function cyclope(outputImageFilename) {
+function cyclope(outputImageFilename, commandOptions = {}) {
   expect(outputImageFilename)
     .to.be.a('string')
     .and.to.match(/\.png$/)
   const outputZipFilename = outputImageFilename.replace('.png', '.zip')
 
   const started = +new Date()
-  return cy.savePage(outputZipFilename).then((options) => {
+  return cy.savePage(outputZipFilename, commandOptions).then((options) => {
     return cy
       .task('upload', {
         ...options,

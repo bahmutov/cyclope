@@ -23,14 +23,20 @@ declare namespace Cypress {
      * @param outputImageFilename string Output PNG filename to save
      * @alias cyclope
      */
-    clope(outputImageFilename: string): Chainable<void>
+    clope(
+      outputImageFilename: string,
+      options?: SavePageOptions,
+    ): Chainable<void>
     /**
      * Creates an accurate image from the current page using
      * an external Cyclope image service
      * @param outputImageFilename Output PNG filename to save
      * @alias clope
      */
-    cyclope(outputImageFilename: string): Chainable<void>
+    cyclope(
+      outputImageFilename: string,
+      options?: SavePageOptions,
+    ): Chainable<void>
 
     /**
      * Saved the current page DOM snapshot as a folder or a zip file
