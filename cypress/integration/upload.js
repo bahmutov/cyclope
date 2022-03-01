@@ -21,4 +21,7 @@ it('upload zip to image', () => {
   cy.get('#theme-switcher').click()
   cy.get('body').should('have.class', 'light')
   cy.clope('light-checkbox.png')
+
+  // get an image of the todos and the stats below
+  // cy.get('.todos').cyclope('todos-and-stats.png')
 })
