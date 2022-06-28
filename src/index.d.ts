@@ -14,6 +14,10 @@ declare namespace Cypress {
      * Remove all iframe elements before saving, default false
      */
     removeIframes?: boolean
+    /**
+     * Ignore errors if part of assets can not be loaded
+     */
+    ignoreFailed?: boolean
   }
 
   interface ImageOptions extends SavePageOptions {

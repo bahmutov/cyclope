@@ -16,7 +16,7 @@ async function makeFolder(path) {
   return path
 }
 
-async function saveResource({ outputFolder, fullUrl, srcAttribute }) {
+async function saveResource({ outputFolder, fullUrl, srcAttribute, saveOptions }) {
   console.log('saving "%s" -> "%s"', fullUrl, srcAttribute)
   if (!fullUrl) {
     throw new Error('Missing fullUrl')
@@ -26,7 +26,15 @@ async function saveResource({ outputFolder, fullUrl, srcAttribute }) {
   const folder = path.dirname(savePath)
   await mkdirp(folder, { recursive: true })
 
-  await pipeline(got.stream(fullUrl), fs.createWriteStream(savePath))
+  try {
+    await pipeline(got.stream(fullUrl), fs.createWriteStream(savePath))
+  } catch(err) {
+    if (saveOptions && saveOptions.ignoreFailed) {
+      console.error('saving failed "%s" -> "%s"', fullUrl, srcAttribute)
+    } else {
+      throw err // throw original error
+    }
+  }
 
   return null
 }
