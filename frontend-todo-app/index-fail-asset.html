@@ -1,11 +1,14 @@
-<head>
-  <title>Page with a wrong resource</title>
-  <style>
-    .no-image {
-      background: url('./assets/non-existing.png');
-    }
-  </style>
-</head>
-<body>
-  This element has a background image that does not load
-</body>
+<html>
+  <head>
+    <title>Page with a wrong resource</title>
+    <style>
+      .no-image {
+        background: url('./assets/non-existing.png');
+      }
+    </style>
+  </head>
+  <body>
+    This element has a background image that does not load. This image tag has
+    no source attribute <img title="missing src attribute" src="" />.
+  </body>
+</html>

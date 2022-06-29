@@ -165,7 +165,7 @@ function getDOMasHTML(options = {}) {
   return html
 }
 
-const isRelative = (src) => src.startsWith('/') || src.startsWith('./')
+const isRelative = (src) => src && (src.startsWith('/') || src.startsWith('./'))
 
 function saveRelativeResources(outputFolder, html, saveOptions) {
   return cy.task('makeFolder', outputFolder, { log: false }).then(() => {
@@ -212,6 +212,7 @@ function saveRelativeResources(outputFolder, html, saveOptions) {
     $(html)
       .find('img')
       .each(function (k, img) {
+        console.log('k', k, img)
         const imageSource = img.getAttribute('src')
         if (isRelative(imageSource)) {
           // console.log('relative image', imageSource)
