@@ -16,7 +16,12 @@ async function makeFolder(path) {
   return path
 }
 
-async function saveResource({ outputFolder, fullUrl, srcAttribute, saveOptions }) {
+async function saveResource({
+  outputFolder,
+  fullUrl,
+  srcAttribute,
+  saveOptions,
+}) {
   console.log('saving "%s" -> "%s"', fullUrl, srcAttribute)
   if (!fullUrl) {
     throw new Error('Missing fullUrl')
@@ -28,8 +33,8 @@ async function saveResource({ outputFolder, fullUrl, srcAttribute, saveOptions }
 
   try {
     await pipeline(got.stream(fullUrl), fs.createWriteStream(savePath))
-  } catch(err) {
-    if (saveOptions && saveOptions.ignoreFailed) {
+  } catch (err) {
+    if (saveOptions && saveOptions.ignoreFailedAssets) {
       console.error('saving failed "%s" -> "%s"', fullUrl, srcAttribute)
     } else {
       throw err // throw original error

@@ -189,7 +189,7 @@ function saveRelativeResources(outputFolder, html, saveOptions) {
           outputFolder,
           fullUrl,
           srcAttribute: relativeUrl,
-          saveOptions: saveOptions
+          saveOptions: saveOptions,
         },
         { log: false },
       )
@@ -233,7 +233,7 @@ function saveRelativeResources(outputFolder, html, saveOptions) {
               outputFolder,
               fullUrl,
               srcAttribute: imageSource,
-              saveOptions: saveOptions
+              saveOptions: saveOptions,
             },
             { log: false },
           )
@@ -248,7 +248,7 @@ function saveRelativeResources(outputFolder, html, saveOptions) {
  * Use this function as an "afterEach" hook to automatically save the
  * current page as an HTML file if the test has failed.
  * @example
- *  afterEach(() => savePageIfTestFailed({ ignoreFailed: true }))
+ *  afterEach(() => savePageIfTestFailed({ ignoreFailedAssets: true }))
  */
 function savePageIfTestFailed(options) {
   if (cy.state('test').isFailed()) {

@@ -80,11 +80,10 @@ When saving the zip, the function yields an object with filename, width, and hei
 cy.savePage('name', { removeIframes: true })
 ```
 
-
-- `ignoreFailed` (false by default) ignores failure in case part of assets can not be loaded
+- `ignoreFailedAssets` (false by default) ignores failure in case part of assets can not be loaded
 
 ```js
-cy.savePage('name', { ignoreFailed: true })
+cy.savePage('name', { ignoreFailedAssets: true })
 ```
 
 ## Save the failed page
@@ -96,9 +95,9 @@ This module includes a utility function to save the page if the test has failed.
 // https://github.com/bahmutov/cyclope
 import { savePageIfTestFailed } from 'cyclope'
 afterEach(() => {
-    savePageIfTestFailed()
-    // in case part of assets in your project is broken 
-    savePageIfTestFailed({ ignoreFailed: true })
+  savePageIfTestFailed()
+  // in case part of assets in your project is broken
+  savePageIfTestFailed({ ignoreFailedAssets: true })
 })
 ```
 

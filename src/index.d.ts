@@ -17,7 +17,7 @@ declare namespace Cypress {
     /**
      * Ignore errors if part of assets can not be loaded
      */
-    ignoreFailed?: boolean
+    ignoreFailedAssets?: boolean
   }
 
   interface ImageOptions extends SavePageOptions {
