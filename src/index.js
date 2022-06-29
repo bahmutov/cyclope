@@ -167,7 +167,7 @@ function getDOMasHTML(options = {}) {
 
 const isRelative = (src) => src.startsWith('/') || src.startsWith('./')
 
-function saveRelativeResources(outputFolder, html) {
+function saveRelativeResources(outputFolder, html, saveOptions) {
   return cy.task('makeFolder', outputFolder, { log: false }).then(() => {
     // sometimes the same resource is referenced multiple times
     const alreadySaved = {}
@@ -189,6 +189,7 @@ function saveRelativeResources(outputFolder, html) {
           outputFolder,
           fullUrl,
           srcAttribute: relativeUrl,
+          saveOptions: saveOptions,
         },
         { log: false },
       )
@@ -232,6 +233,7 @@ function saveRelativeResources(outputFolder, html) {
               outputFolder,
               fullUrl,
               srcAttribute: imageSource,
+              saveOptions: saveOptions,
             },
             { log: false },
           )
@@ -246,9 +248,9 @@ function saveRelativeResources(outputFolder, html) {
  * Use this function as an "afterEach" hook to automatically save the
  * current page as an HTML file if the test has failed.
  * @example
- *  afterEach(savePageIfTestFailed)
+ *  afterEach(() => savePageIfTestFailed({ ignoreFailedAssets: true }))
  */
-function savePageIfTestFailed() {
+function savePageIfTestFailed(options) {
   if (cy.state('test').isFailed()) {
     return cy
       .task('printFailedTestMessage', {
@@ -263,7 +265,7 @@ function savePageIfTestFailed() {
           Cypress.currentTest.title,
         )
         cy.log(outputFolder)
-        return savePage(outputFolder)
+        return savePage(outputFolder, options)
       })
   }
 }
@@ -282,7 +284,7 @@ function savePage(outputFolderOrZipFile, options = {}) {
   if (outputFolderOrZipFile.endsWith('.zip')) {
     // cy.log(`Saving ${outputFolderOrZipFile}`)
     const tempFolder = outputFolderOrZipFile.replace(/\.zip$/, '')
-    return saveRelativeResources(tempFolder, html)
+    return saveRelativeResources(tempFolder, html, options)
       .then((html) => {
         const filename = `${tempFolder}/index.html`
         return cy.writeFile(filename, html, { log: false })
@@ -310,7 +312,7 @@ function savePage(outputFolderOrZipFile, options = {}) {
   }
 
   // saving the page as a folder
-  return saveRelativeResources(outputFolderOrZipFile, html)
+  return saveRelativeResources(outputFolderOrZipFile, html, options)
     .then((html) => {
       const filename = `${outputFolderOrZipFile}/index.html`
       return cy.writeFile(filename, html, { log: false })
