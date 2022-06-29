@@ -1,10 +1,13 @@
 /// <reference types="cypress" />
 
 describe('save page example', () => {
-  it('saves page even with broken assets', () => {
+  it('saves page', () => {
     cy.visit('/')
-    // trigger failure with 404 code, by attaching class with background that points to nowhere
-    cy.get('body').invoke('addClass', 'no-image')
-    cy.savePage('page', { ignoreFailedAssets: true })
+    cy.savePage('page')
+  })
+
+  it('saves page even with broken assets', () => {
+    cy.visit('/index-fail-asset')
+    cy.savePage('page-with-fail-assets', { ignoreFailedAssets: true })
   })
 })

@@ -35,9 +35,11 @@ async function saveResource({
     await pipeline(got.stream(fullUrl), fs.createWriteStream(savePath))
   } catch (err) {
     if (saveOptions && saveOptions.ignoreFailedAssets) {
-      console.error('saving failed "%s" -> "%s"', fullUrl, srcAttribute)
+      console.error('ignoring failed asset "%s" -> "%s"', fullUrl, srcAttribute)
     } else {
-      throw err // throw original error
+      console.error('saving failed "%s" -> "%s"', fullUrl, srcAttribute)
+      console.error(err.message)
+      throw new Error(`Failed to load ${srcAttribute}\n${err.message}`)
     }
   }
 
