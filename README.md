@@ -80,6 +80,13 @@ When saving the zip, the function yields an object with filename, width, and hei
 cy.savePage('name', { removeIframes: true })
 ```
 
+
+- `ignoreFailed` (false by default) ignores failure in case part of assets can not be loaded
+
+```js
+cy.savePage('name', { ignoreFailed: true })
+```
+
 ## Save the failed page
 
 This module includes a utility function to save the page if the test has failed. You can use this function as `afterEach` hook, probably from the support file, so it applies to all tests.
@@ -88,7 +95,11 @@ This module includes a utility function to save the page if the test has failed.
 // in cypress/support/index.js
 // https://github.com/bahmutov/cyclope
 import { savePageIfTestFailed } from 'cyclope'
-afterEach(savePageIfTestFailed)
+afterEach(() => {
+    savePageIfTestFailed()
+    // in case part of assets in your project is broken 
+    savePageIfTestFailed({ ignoreFailed: true })
+})
 ```
 
 All pages are saved in the folder `cypress/failed/<spec name>/<test name>`.
