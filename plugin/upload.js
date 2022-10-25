@@ -1,5 +1,5 @@
 // @ts-check
-const { debug } = require('debug')('cyclope')
+const debug = require('debug')('cyclope')
 const fs = require('fs')
 const got = require('got')
 const { URLSearchParams } = require('url')
