@@ -28,7 +28,7 @@ jobs:
           install: false
           start: npm start
           wait-on: 'http://localhost:3777'
-          spec: 'cypress/integration/element-image.js'
+          spec: 'cypress/e2e/element-image.cy.js'
 
       # https://github.com/actions/upload-artifact
       - uses: actions/upload-artifact@v2
