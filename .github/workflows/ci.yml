@@ -19,6 +19,7 @@ jobs:
         env:
           CYCLOPE_SERVICE_URL: ${{ secrets.CYCLOPE_SERVICE_URL }}
           CYCLOPE_SERVICE_KEY: ${{ secrets.CYCLOPE_SERVICE_KEY }}
+          DEBUG: cyclope
 
       - name: Can skip using Cyclope service 🧪
         uses: cypress-io/github-action@v4
