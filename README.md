@@ -33,6 +33,27 @@ Include the plugin from your support file or an individual spec file
 import 'cyclope'
 ```
 
+### Include the plugin from the config file in Cypress v10
+
+```js
+// cypress.config.js
+const { defineConfig } = require('cypress')
+
+module.exports = defineConfig({
+  e2e: {
+    setupNodeEvents(on, config) {
+      // https://github.com/bahmutov/cyclope
+      require('cyclope/plugin')(on, config)
+      // IMPORTANT to return the config object
+      // with the any changed environment variables
+      return config
+    },
+  },
+})
+```
+
+### Include the plugin from the plugins file in Cypress v9
+
 Include the plugin from your plugins file
 
 ```js
