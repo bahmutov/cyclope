@@ -5,29 +5,30 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout 🛎
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       # https://github.com/cypress-io/github-action
       - name: Cypress tests 🧪
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v4
         with:
           start: npm start
           wait-on: 'http://localhost:3777'
-          config: 'ignoreTestFiles=["on-failure.js","index.html"]'
+          config: 'excludeSpecPattern=["cypress/e2e/example/on-failure.cy.js"]'
         env:
           CYCLOPE_SERVICE_URL: ${{ secrets.CYCLOPE_SERVICE_URL }}
           CYCLOPE_SERVICE_KEY: ${{ secrets.CYCLOPE_SERVICE_KEY }}
+          DEBUG: cyclope
 
       - name: Can skip using Cyclope service 🧪
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v4
         with:
           # we have already installed all dependencies above
           install: false
           start: npm start
           wait-on: 'http://localhost:3777'
-          spec: 'cypress/integration/element-image.js'
+          spec: 'cypress/e2e/element-image.cy.js'
 
       # https://github.com/actions/upload-artifact
       - uses: actions/upload-artifact@v2

@@ -33,6 +33,27 @@ Include the plugin from your support file or an individual spec file
 import 'cyclope'
 ```
 
+### Include the plugin from the config file in Cypress v10
+
+```js
+// cypress.config.js
+const { defineConfig } = require('cypress')
+
+module.exports = defineConfig({
+  e2e: {
+    setupNodeEvents(on, config) {
+      // https://github.com/bahmutov/cyclope
+      require('cyclope/plugin')(on, config)
+      // IMPORTANT to return the config object
+      // with the any changed environment variables
+      return config
+    },
+  },
+})
+```
+
+### Include the plugin from the plugins file in Cypress v9
+
 Include the plugin from your plugins file
 
 ```js
@@ -129,6 +150,14 @@ If you want to simply skip DOM upload and image generation if the Cyclope servic
     }
   }
 }
+```
+
+## Debugging
+
+You can enabled verbose debug messages in the terminal using the [debug](https://github.com/debug-js/debug#readme) module by running the tests with the environment variable `DEBUG=cyclope`
+
+```
+$ DEBUG=cyclope npx cypress run
 ```
 
 ## Examples

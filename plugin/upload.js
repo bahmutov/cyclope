@@ -1,10 +1,13 @@
 // @ts-check
+const debug = require('debug')('cyclope')
 const fs = require('fs')
 const got = require('got')
 const { URLSearchParams } = require('url')
 
 function configureUpload(pluginOptions) {
   async function upload(options = {}) {
+    debug('upload options %o', options)
+
     const uploadUrl = process.env.CYCLOPE_SERVICE_URL
     const key = process.env.CYCLOPE_SERVICE_KEY
     if (!uploadUrl || !key) {

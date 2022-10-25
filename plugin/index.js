@@ -7,6 +7,7 @@ const got = require('got')
 const del = require('del')
 const { zipFolder } = require('./zip')
 const { configureUpload } = require('./upload')
+const debug = require('debug')('cyclope')
 
 const pipeline = promisify(stream.pipeline)
 
@@ -61,6 +62,7 @@ function initCyclope(on, config) {
   const cypressEnv = config.env || {}
   const pluginOptions = cypressEnv.cyclope || {}
   const upload = configureUpload(pluginOptions)
+  debug('plugin options %o', pluginOptions)
 
   on('task', {
     makeFolder,

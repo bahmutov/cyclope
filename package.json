@@ -11,11 +11,11 @@
   "scripts": {
     "test": "start-test 3777 cy:run",
     "start": "serve -p 3777 frontend-todo-app",
-    "cy:open": "cypress open",
+    "cy:open": "cypress open --e2e",
     "cy:run": "cypress run",
     "dev": "start-test 3777 cy:open",
     "semantic-release": "semantic-release",
-    "fail:example": "cypress-expect --failing 1 --spec cypress/integration/example/on-failure.js",
+    "fail:example": "cypress-expect --failing 1 --spec cypress/e2e/example/on-failure.cy.js",
     "postfail:example": "ls -laR cypress/failed"
   },
   "repository": {
@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/bahmutov/cyclope#readme",
   "devDependencies": {
-    "cypress": "9.5.4",
+    "cypress": "10.10.0",
     "cypress-expect": "2.5.3",
     "cypress-real-events": "1.7.2",
     "prettier": "2.7.1",
@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "archiver": "^5.3.0",
+    "debug": "^4.3.4",
     "del": "^6.0.0",
     "got": "^11.8.2",
     "mkdirp": "^1.0.4",
