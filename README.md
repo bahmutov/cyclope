@@ -152,6 +152,14 @@ If you want to simply skip DOM upload and image generation if the Cyclope servic
 }
 ```
 
+## Debugging
+
+You can enabled verbose debug messages in the terminal using the [debug](https://github.com/debug-js/debug#readme) module by running the tests with the environment variable `DEBUG=cyclope`
+
+```
+$ DEBUG=cyclope npx cypress run
+```
+
 ## Examples
 
 - [todo-app-for-cyclope](https://github.com/bahmutov/todo-app-for-cyclope)
