@@ -15,7 +15,7 @@ jobs:
         with:
           start: npm start
           wait-on: 'http://localhost:3777'
-          config: 'excludeSpecPattern=["on-failure.js"]'
+          config: 'excludeSpecPattern=["cypress/e2e/example/on-failure.cy.js"]'
         env:
           CYCLOPE_SERVICE_URL: ${{ secrets.CYCLOPE_SERVICE_URL }}
           CYCLOPE_SERVICE_KEY: ${{ secrets.CYCLOPE_SERVICE_KEY }}
