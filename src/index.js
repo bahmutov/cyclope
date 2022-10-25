@@ -275,10 +275,12 @@ function savePage(outputFolderOrZipFile, options = {}) {
   const started = +new Date()
   cy.log(`cyclope: **${outputFolderOrZipFile}**`)
 
-  function logTiming() {
+  function logTiming(x) {
     const finished = +new Date()
     const duration = finished - started
     cy.log(`savePage took **${duration}** ms`)
+    // yield the original subject
+    cy.wrap(x, { log: false })
   }
 
   const html = getDOMasHTML(options)
