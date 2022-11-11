@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/bahmutov/cyclope#readme",
   "devDependencies": {
-    "cypress": "10.11.0",
+    "cypress": "11.0.1",
     "cypress-expect": "2.5.3",
     "cypress-real-events": "1.7.4",
     "prettier": "2.7.1",
