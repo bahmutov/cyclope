@@ -212,7 +212,7 @@ function saveRelativeResources(outputFolder, html, saveOptions) {
     $(html)
       .find('img')
       .each(function (k, img) {
-        console.log('k', k, img)
+        // console.log('k', k, img)
         const imageSource = img.getAttribute('src')
         if (isRelative(imageSource)) {
           // console.log('relative image', imageSource)
