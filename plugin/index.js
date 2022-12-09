@@ -58,6 +58,21 @@ function printFailedTestMessage(info) {
   return null
 }
 
+async function zipFolderTask({ folder, zipFile }) {
+  console.log('zipping "%s" to "%s"', folder, zipFile)
+
+  await del(zipFile)
+  await zipFolder(folder, zipFile)
+  await del(folder)
+
+  return zipFile
+}
+
+function cyclopePrint(s) {
+  console.log('cyclope:', s)
+  return null
+}
+
 function initCyclope(on, config) {
   const cypressEnv = config.env || {}
   const pluginOptions = cypressEnv.cyclope || {}
@@ -69,15 +84,8 @@ function initCyclope(on, config) {
     saveResource,
     upload,
     printFailedTestMessage,
-    async zipFolder({ folder, zipFile }) {
-      console.log('zipping "%s" to "%s"', folder, zipFile)
-
-      await del(zipFile)
-      await zipFolder(folder, zipFile)
-      await del(folder)
-
-      return zipFile
-    },
+    zipFolder: zipFolderTask,
+    cyclopePrint,
   })
 }
 

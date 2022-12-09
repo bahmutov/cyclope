@@ -279,6 +279,7 @@ function savePage(outputFolderOrZipFile, options = {}) {
     const finished = +new Date()
     const duration = finished - started
     cy.log(`savePage took **${duration}** ms`)
+    cy.task('cyclopePrint', `savePage took ${duration} ms`)
     // yield the original subject
     cy.wrap(x, { log: false })
   }
