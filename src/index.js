@@ -58,6 +58,9 @@ function replaceUrls(baseUrl, style) {
           const url = match[0].substr(5, match[0].length - 7)
           urls.push(url)
           return match[0].replace(baseUrl, '.')
+        } else {
+          // keep the original 3rd party domain URL
+          return match[0]
         }
       }
     },

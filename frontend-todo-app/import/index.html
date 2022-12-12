@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <style>
+      @import '/import/app.css';
+      @import 'http://localhost:3777/import/more-styles.css';
+      @import 'https://other-domain.acme/style.css';
+      div {
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Import style</h1>
+    <div class="imported">Should have red border</div>
+    <div class="imported2">Should have green border</div>
+    <div class="imported3">Should have blue border</div>
+  </body>
+</html>
