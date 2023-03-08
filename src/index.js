@@ -9,7 +9,8 @@ Cypress.on('test:before:run', () => {
   // before each test clear the hover element
   cy.state('hovered', null)
 
-  if (Cypress.Commands._commands.realHover) {
+  // TODO: figure out how to check if a command exists
+  if (Cypress.Commands._commands && Cypress.Commands._commands.realHover) {
     Cypress.Commands.overwrite(
       'realHover',
       function realHover(realHover, subject, options) {
