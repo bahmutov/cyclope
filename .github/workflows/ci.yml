@@ -11,7 +11,7 @@ jobs:
       # and run all Cypress tests
       # https://github.com/cypress-io/github-action
       - name: Cypress tests 🧪
-        uses: cypress-io/github-action@v4
+        uses: cypress-io/github-action@v5
         with:
           start: npm start
           wait-on: 'http://localhost:3777'
@@ -22,7 +22,7 @@ jobs:
           DEBUG: cyclope
 
       - name: Can skip using Cyclope service 🧪
-        uses: cypress-io/github-action@v4
+        uses: cypress-io/github-action@v5
         with:
           # we have already installed all dependencies above
           install: false
@@ -31,7 +31,7 @@ jobs:
           spec: 'cypress/e2e/element-image.cy.js'
 
       # https://github.com/actions/upload-artifact
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         if: always()
         with:
           name: page
@@ -40,7 +40,8 @@ jobs:
             *.png
 
       - name: Semantic Release 🚀
-        uses: cycjimmy/semantic-release-action@v2
+        if: github.ref == 'refs/heads/main'
+        uses: cycjimmy/semantic-release-action@v3
         with:
           branches: main
         env:
