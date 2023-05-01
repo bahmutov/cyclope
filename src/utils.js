@@ -10,4 +10,12 @@ if (typeof unique !== 'function') {
 
 const jUnique = ($el) => unique($el[0])
 
-module.exports = { jUnique }
+/**
+ * Removes characters that are unsafe inside a filename
+ * @param {string} str
+ */
+function removeUnsafeCharacters(str) {
+  return str.replace(/[:&]/g, '-')
+}
+
+module.exports = { jUnique, removeUnsafeCharacters }

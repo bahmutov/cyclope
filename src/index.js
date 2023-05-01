@@ -1,7 +1,7 @@
 // @ts-check
 /// <reference path="./index.d.ts" />
 
-const { jUnique } = require('./utils')
+const { jUnique, removeUnsafeCharacters } = require('./utils')
 const { $ } = Cypress
 const path = require('path')
 
@@ -277,6 +277,8 @@ function savePageIfTestFailed(options) {
 
 function savePage(outputFolderOrZipFile, options = {}) {
   const started = +new Date()
+
+  outputFolderOrZipFile = removeUnsafeCharacters(outputFolderOrZipFile)
   cy.log(`cyclope: **${outputFolderOrZipFile}**`)
 
   function logTiming(x) {
