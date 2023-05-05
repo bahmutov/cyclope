@@ -11,7 +11,7 @@ it('handles absolute to relative resources', () => {
 })
 
 // SKIP https://github.com/bahmutov/cyclope/issues/95
-it.skip('loads the saved static page', { baseUrl: null }, () => {
+it('loads the saved static page', { baseUrl: null }, () => {
   cy.visit('page-absolute/index.html')
   cy.get('img', { timeout: 0 }).should('have.prop', 'naturalWidth', 1440)
 })
