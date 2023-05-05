@@ -183,6 +183,8 @@ function saveRelativeResources(outputFolder, html, saveOptions) {
     // cy.log(`base url ${baseUrl}`)
 
     const { urls, replaced } = replaceUrls(baseUrl, html)
+    // console.log({ baseUrl, urls, replaced })
+
     cy.wrap(urls, { log: false })
 
     urls.forEach((fullUrl) => {
