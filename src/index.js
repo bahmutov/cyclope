@@ -228,6 +228,12 @@ function saveRelativeResources(outputFolder, html, saveOptions) {
             return
           }
 
+          if (imageSource.startsWith('/')) {
+            // change urls like "/foo/bar/..." to be relative "./foo/bar/..."
+            // so the images load when we visit the local file
+            html = html.replaceAll(imageSource, '.' + imageSource)
+          }
+
           if (alreadySaved[imageSource]) {
             return
           }
