@@ -219,6 +219,7 @@ function saveRelativeResources(outputFolder, html, saveOptions) {
       .find('img')
       .each(function (k, img) {
         // console.log('k', k, img)
+
         const imageSource = img.getAttribute('src')
         if (isRelative(imageSource)) {
           // console.log('relative image', imageSource)
@@ -246,6 +247,39 @@ function saveRelativeResources(outputFolder, html, saveOptions) {
               outputFolder,
               fullUrl,
               srcAttribute: imageSource,
+              saveOptions: saveOptions,
+            },
+            { log: false },
+          )
+        }
+
+        const imageSourceSet = img.getAttribute('srcset')
+        if (isRelative(imageSourceSet)) {
+          // console.log('relative image', imageSource)
+          if (imageSourceSet.startsWith('//')) {
+            // not a relative resource, but assume external HTTPs resource
+            img.setAttribute('src', `https:${imageSourceSet}`)
+            return
+          }
+
+          if (imageSourceSet.startsWith('/')) {
+            // change urls like "/foo/bar/..." to be relative "./foo/bar/..."
+            // so the images load when we visit the local file
+            html = html.replaceAll(imageSourceSet, '.' + imageSourceSet)
+          }
+
+          if (alreadySaved[imageSourceSet]) {
+            return
+          }
+
+          alreadySaved[imageSourceSet] = true
+          const fullUrl = img.currentSrc
+          cy.task(
+            'saveResource',
+            {
+              outputFolder,
+              fullUrl,
+              srcAttribute: imageSourceSet,
               saveOptions: saveOptions,
             },
             { log: false },
