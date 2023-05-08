@@ -1,9 +1,8 @@
 // @ts-check
 /// <reference path="./index.d.ts" />
 
-const { jUnique, removeUnsafeCharacters } = require('./utils')
+const { jUnique, removeUnsafeCharacters, pathJoin } = require('./utils')
 const { $ } = Cypress
-const path = require('path')
 
 Cypress.on('test:before:run', () => {
   // before each test clear the hover element
@@ -312,7 +311,7 @@ function savePageIfTestFailed(options) {
         title: Cypress.currentTest.title,
       })
       .then(() => {
-        const outputFolder = path.join(
+        const outputFolder = pathJoin(
           'cypress',
           'failed',
           Cypress.spec.name,

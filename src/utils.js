@@ -18,4 +18,12 @@ function removeUnsafeCharacters(str) {
   return str.replace(/[:&]/g, '-')
 }
 
-module.exports = { jUnique, removeUnsafeCharacters }
+/**
+ * Just like "path.join"
+ * @param {string[]} parts
+ */
+function pathJoin(...parts) {
+  return parts.join('/')
+}
+
+module.exports = { jUnique, removeUnsafeCharacters, pathJoin }
