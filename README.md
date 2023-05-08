@@ -15,6 +15,12 @@
 - [Test Dragging Items](https://youtu.be/mmKOSQxQwEU)
 - [Introduction to cy.session command](https://youtu.be/DlGQEQ2q35w)
 
+## Course lessons
+
+### Testing The Swag Store
+
+- [Bonus 39: Save the entire HTML page on test failures](https://cypress.tips/courses/swag-store/lessons/bonus39)
+
 ## Install
 
 Add this plugin to your project. Assuming Cypress is a dev dependency
