@@ -108,18 +108,25 @@ function getDOMasHTML(options = {}) {
   // replace head styles links
   const existingStyles = $head.find('link[rel="stylesheet"],style')
 
+  // XMLS.serializeToString method automatically escapes all ">" characters
+  // which can be used inside styles. Thus we need to "hide" them
+  // and restore the original ">" later after converting HEAD into HTML string
+  // https://github.com/bahmutov/cyclope/issues/98
+  const STYLE_LARGER_THAN = 'STYLE_LARGER_THAN'
+
   headStyles.forEach(function (style, index) {
     if (style.href) {
       //?
     } else {
-      _replaceStyle($head, existingStyles[index], style)
+      const preparedStyle = style.replaceAll('>', STYLE_LARGER_THAN)
+      _replaceStyle($head, existingStyles[index], preparedStyle)
     }
   })
 
+  const headNode = Cypress.$autIframe.contents().find('head')[0]
   const XMLS = new XMLSerializer()
-  let headHTML = XMLS.serializeToString(
-    Cypress.$autIframe.contents().find('head')[0],
-  )
+  let headHTML = XMLS.serializeToString(headNode)
+  headHTML = headHTML.replaceAll(STYLE_LARGER_THAN, '>')
 
   const body = snap.body.get()[0]
 
