@@ -15,7 +15,7 @@ const jUnique = ($el) => unique($el[0])
  * @param {string} str
  */
 function removeUnsafeCharacters(str) {
-  return str.replace(/[:&]/g, '-')
+  return str.replace(/[:&><]/g, '-')
 }
 
 /**
