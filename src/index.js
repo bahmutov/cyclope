@@ -300,11 +300,18 @@ function saveRelativeResources(outputFolder, html, saveOptions) {
 /**
  * Use this function as an "afterEach" hook to automatically save the
  * current page as an HTML file if the test has failed.
+ * By default does it only in the non-interactive mode.
  * @example
  *  afterEach(() => savePageIfTestFailed({ ignoreFailedAssets: true }))
  */
 function savePageIfTestFailed(options) {
   if (cy.state('test').isFailed()) {
+    const isInteractive = Cypress.config('isInteractive')
+    const shouldSaveInInteractiveMode = options?.saveInteractive
+    if (isInteractive && !shouldSaveInInteractiveMode) {
+      return
+    }
+
     return cy
       .task('printFailedTestMessage', {
         spec: Cypress.spec.name,

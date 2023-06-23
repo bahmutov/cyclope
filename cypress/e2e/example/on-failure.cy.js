@@ -14,4 +14,6 @@ describe('failing example', () => {
   })
 })
 
-afterEach(() => savePageIfTestFailed({ ignoreFailedAssets: true }))
+afterEach(() =>
+  savePageIfTestFailed({ ignoreFailedAssets: true, saveInteractive: true }),
+)

@@ -128,6 +128,12 @@ afterEach(() => {
 })
 ```
 
+By default, the page is saved only in the non-interactive mode `cypress run`. If you want to save the page even when running in the `cypress open` mode, use the option `saveInteractive`
+
+```js
+savePageIfTestFailed({ saveInteractive: true })
+```
+
 All pages are saved in the folder `cypress/failed/<spec name>/<test name>`.
 
 **Tip:** store the `cypress/failed` as a test artifact on CI. If a test fails, download and open the `folder/index.html` to inspect the application's structure at the moment of failure.
