@@ -307,7 +307,7 @@ function saveRelativeResources(outputFolder, html, saveOptions) {
 function savePageIfTestFailed(options) {
   if (cy.state('test').isFailed()) {
     const isInteractive = Cypress.config('isInteractive')
-    const shouldSaveInInteractiveMode = options?.saveInteractive
+    const shouldSaveInInteractiveMode = options && options.saveInteractive
     if (isInteractive && !shouldSaveInInteractiveMode) {
       return
     }
