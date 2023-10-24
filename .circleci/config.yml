@@ -2,10 +2,18 @@ version: 2.1
 orbs:
   # https://github.com/cypress-io/circleci-orb
   cypress: cypress-io/cypress@2.2.0
+
+executors:
+  test-container:
+    # https://github.com/cypress-io/cypress-docker-images
+    docker:
+      - image: 'cypress/base:20.6.1'
+
 workflows:
   build:
     jobs:
       - cypress/run:
+          executor: test-container
           name: Saves page on test failure
           start: npm start
           wait-on: 'http://localhost:3777'
