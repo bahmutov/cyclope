@@ -11,6 +11,11 @@ declare namespace Cypress {
 
   interface SavePageOptions {
     /**
+     * Injects a script to stop all animations, true by default.
+     * @see https://glebbahmutov.com/blog/css-animations/
+     */
+    freezeAnimations?: boolean
+    /**
      * Remove all iframe elements before saving, default false
      */
     removeIframes?: boolean
