@@ -1,0 +1,40 @@
+<html>
+  <style>
+    @keyframes moving-colors {
+      0% {
+        background-color: red;
+        left: 0px;
+        top: 0px;
+      }
+      25% {
+        background-color: yellow;
+        left: 200px;
+        top: 0px;
+      }
+      50% {
+        background-color: blue;
+        left: 200px;
+        top: 200px;
+      }
+      75% {
+        background-color: green;
+        left: 0px;
+        top: 200px;
+      }
+      100% {
+        background-color: red;
+        left: 0px;
+        top: 0px;
+      }
+    }
+
+    p#main {
+      position: relative;
+      animation-name: moving-colors;
+      animation-duration: 4s;
+    }
+  </style>
+  <body>
+    <p id="main">This is animated text</p>
+  </body>
+</html>

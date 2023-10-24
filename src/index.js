@@ -84,6 +84,16 @@ function getDOMasHTML(options = {}) {
   const { headStyles } = Cypress.cy.getStyles(snap)
   // console.log(headStyles)
 
+  if (options.freezeAnimations) {
+    // add our own script to disable all animations
+    headStyles.push(`
+      *, *:before, *:after {
+        transition-property: none !important;
+        animation: none !important;
+      }
+    `)
+  }
+
   const $head = Cypress.$autIframe.contents().find('head')
   // remove all inline JavaScript code
   $head.find('script').empty()
@@ -330,7 +340,11 @@ function savePageIfTestFailed(options) {
   }
 }
 
-function savePage(outputFolderOrZipFile, options = {}) {
+const defaultSavePageOptions = {
+  freezeAnimations: true,
+}
+
+function savePage(outputFolderOrZipFile, options = defaultSavePageOptions) {
   const started = +new Date()
 
   outputFolderOrZipFile = removeUnsafeCharacters(outputFolderOrZipFile)
