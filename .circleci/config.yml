@@ -7,7 +7,7 @@ executors:
   test-container:
     # https://github.com/cypress-io/cypress-docker-images
     docker:
-      - image: 'cypress/base:20.6.1'
+      - image: 'cypress/base:20.9.0'
 
 workflows:
   build:
