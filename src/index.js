@@ -86,12 +86,9 @@ function getDOMasHTML(options = {}) {
 
   if (options.freezeAnimations) {
     // add our own script to disable all animations
-    headStyles.push(`
-      *, *:before, *:after {
-        transition-property: none !important;
-        animation: none !important;
-      }
-    `)
+    headStyles.push(
+      '/* disable all animations */ *, *:before, *:after { transition-property: none !important; animation: none !important; }',
+    )
   }
 
   const $head = Cypress.$autIframe.contents().find('head')
@@ -314,7 +311,7 @@ function saveRelativeResources(outputFolder, html, saveOptions) {
  * @example
  *  afterEach(() => savePageIfTestFailed({ ignoreFailedAssets: true }))
  */
-function savePageIfTestFailed(options) {
+function savePageIfTestFailed(options = {}) {
   if (cy.state('test').isFailed()) {
     const isInteractive = Cypress.config('isInteractive')
     const shouldSaveInInteractiveMode = options && options.saveInteractive
@@ -335,7 +332,11 @@ function savePageIfTestFailed(options) {
           Cypress.currentTest.title,
         )
         cy.log(outputFolder)
-        return savePage(outputFolder, options)
+        const combinedOptions = {
+          ...defaultSavePageOptions,
+          ...options,
+        }
+        return savePage(outputFolder, combinedOptions)
       })
   }
 }
