@@ -1,6 +1,6 @@
 # cyclope
 
-[![ci status][ci image]][ci url] [![renovate-app badge][renovate-badge]][renovate-app] [![CircleCI](https://circleci.com/gh/bahmutov/cyclope/tree/main.svg?style=svg)](https://circleci.com/gh/bahmutov/cyclope/tree/main) ![cypress version](https://img.shields.io/badge/cypress-13.16.0-brightgreen)
+[![ci status][ci image]][ci url] [![renovate-app badge][renovate-badge]][renovate-app] [![CircleCI](https://circleci.com/gh/bahmutov/cyclope/tree/main.svg?style=svg)](https://circleci.com/gh/bahmutov/cyclope/tree/main) ![cypress version](https://img.shields.io/badge/cypress-13.16.1-brightgreen)
 
 > Cypress DOM snapshots and consistent image diffing in the cloud
 
