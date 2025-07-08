@@ -177,6 +177,10 @@ $ DEBUG=cyclope npx cypress run
 - [todo-app-for-cyclope](https://github.com/bahmutov/todo-app-for-cyclope)
 - [sudoku-mock-module](https://github.com/bahmutov/sudoku-mock-module)
 
+## Copy DOM
+
+I am trying to create a [Copy DOM to Clipboard](https://github.com/bahmutov/cyclope/issues/251) button, but have been stopped by the "Cannot copy to clipboard because the Document is not focused" browser error. Still working on it.
+
 ## Small print
 
 Author: Gleb Bahmutov &lt;gleb.bahmutov@gmail.com&gt; &copy; 2021
