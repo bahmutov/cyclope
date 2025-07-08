@@ -4,6 +4,33 @@
 const { jUnique, removeUnsafeCharacters, pathJoin } = require('./utils')
 const { $ } = Cypress
 
+// adds "Capture DOM" button to the top of the Cypress runner
+before(() => {
+  const $topDoc = $(window.top.document)
+  if ($topDoc.find('[data-cy="copy-dom"]').length) {
+    // already added
+    return
+  }
+  const $selectorButton = $topDoc.find('[aria-label="Toggle playground"]')
+  if (!$selectorButton.length) {
+    return
+  }
+
+  // using jQuery helper insert a new button _before_ the "Toggle playground" button
+  // Tip: copy CSS classes from the other buttons
+  const $copyDOM = $(
+    `<button data-cy="copy-dom" class="bg-gray-1100 border rounded-md flex h-full border-gray-800 outline-solid outline-indigo-500 transition w-[40px] duration-150 items-center justify-center hover:bg-gray-800 bg-gray-1100" title="Copy DOM to Clipboard">📋</button>`,
+  )
+  $copyDOM.on('click', () => {
+    const html = getDOMasHTML()
+    // copy the HTML to the clipboard
+    // by first focusing the document
+    // to get around browser security restrictions
+    navigator.clipboard.writeText(html)
+  })
+  $selectorButton.before($copyDOM)
+})
+
 Cypress.on('test:before:run', () => {
   // before each test clear the hover element
   cy.state('hovered', null)
@@ -75,6 +102,10 @@ const onAttributesToRemove = Object.keys(HTMLElement.prototype).filter((s) =>
   s.startsWith('on'),
 )
 
+/**
+ * Static page that tries to "clean up" the DOM
+ * into a static HTML string.
+ */
 function getDOMasHTML(options = {}) {
   const doc = cy.state('document')
   const snap = cy.createSnapshot('snap')
