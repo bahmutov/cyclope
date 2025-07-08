@@ -4,6 +4,48 @@
 const { jUnique, removeUnsafeCharacters, pathJoin } = require('./utils')
 const { $ } = Cypress
 
+// adds "Capture DOM" button to the top of the Cypress runner
+// for now, flag it off, since I don't know how to solve the Clipboard security permission error
+if (false) {
+  before(() => {
+    const $topDoc = $(window.top.document)
+    if ($topDoc.find('[data-cy="copy-dom"]').length) {
+      // already added
+      return
+    }
+    const $selectorButton = $topDoc.find('[aria-label="Toggle playground"]')
+    if (!$selectorButton.length) {
+      return
+    }
+
+    // using jQuery helper insert a new button _before_ the "Toggle playground" button
+    // Tip: copy CSS classes from the other buttons
+    const $copyDOM = $(
+      `<button data-cy="copy-dom" class="bg-gray-1100 border rounded-md flex h-full border-gray-800 outline-solid outline-indigo-500 transition w-[40px] duration-150 items-center justify-center hover:bg-gray-800 bg-gray-1100" title="Copy DOM to Clipboard">📋</button>`,
+    )
+    $copyDOM.on('click', async () => {
+      const html = getDOMasHTML()
+      // browser throws an error if the document is not focused
+      // so we need to focus the document first
+      // console.log('target', target)
+      // const doc = window.top.document
+      // doc.body.focus()
+      // await navigator.clipboard.writeText(html)
+      console.log(html)
+    })
+    $selectorButton.before($copyDOM)
+
+    cy.wrap(
+      Cypress.automation('remote:debugger:protocol', {
+        command: 'Browser.grantPermissions',
+        params: {
+          permissions: ['clipboardReadWrite', 'clipboardSanitizedWrite'],
+        },
+      }),
+    )
+  })
+}
+
 Cypress.on('test:before:run', () => {
   // before each test clear the hover element
   cy.state('hovered', null)
@@ -75,6 +117,10 @@ const onAttributesToRemove = Object.keys(HTMLElement.prototype).filter((s) =>
   s.startsWith('on'),
 )
 
+/**
+ * Static page that tries to "clean up" the DOM
+ * into a static HTML string.
+ */
 function getDOMasHTML(options = {}) {
   const doc = cy.state('document')
   const snap = cy.createSnapshot('snap')
