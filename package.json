@@ -1,6 +1,6 @@
 {
   "name": "cyclope",
-  "version": "0.0.0-development",
+  "version": "0.0.1-development",
   "description": "Cypress DOM snapshots and consistent image diffing in the cloud",
   "main": "src",
   "types": "src",
