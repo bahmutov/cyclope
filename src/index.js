@@ -73,8 +73,13 @@ function _styleTag(style) {
 function _replaceStyle($head, existingStyle, style) {
   const styleTag = _styleTag(style)
 
-  if (existingStyle) {
-    Cypress.$(existingStyle).replaceWith(styleTag)
+  if (existingStyle && existingStyle.parentNode) {
+    try {
+      Cypress.$(existingStyle).replaceWith(styleTag)
+    } catch (e) {
+      console.warn('Failed to replace style, appending instead:', e.message)
+      $head.append(styleTag)
+    }
   } else {
     // no existing style at this index, so no more styles at all in
     // the head, so just append it
